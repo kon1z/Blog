@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Meowv.Blog</RootNamespace>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>..\Meowv.Blog.Api\Meowv.Blog.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Html2Markdown" Version="7.0.2.10" />
+    <PackageReference Include="IP2Region" Version="1.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+    <PackageReference Include="TencentCloudSDK.Cdn" Version="3.0.1194" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="9.1.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meowv.Blog.Application.Contracts\Meowv.Blog.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Meowv.Blog.Domain\Meowv.Blog.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
