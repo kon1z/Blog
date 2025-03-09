@@ -1,0 +1,60 @@
+services:
+  
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "27017:27017"
+      
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      - TZ=Asia/Shanghai
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  agile_config:
+    image: kklldog/agile_config:latest
+    container_name: agile_config
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - TZ=Asia/Shanghai
+      - db__provider=npgsql
+      - db__conn=Host=postgres;Port=5432;Username=postgres;Password=postgres;Database=agile;
+      - adminConsole=true
+    ports:
+      - "5000:5000"
+
+volumes:
+  postgres_data:
