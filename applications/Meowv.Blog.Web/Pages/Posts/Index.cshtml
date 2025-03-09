@@ -6,7 +6,7 @@
     var response = Model.Posts;
 
     var posts = response.Result.Item;
-    var total = (int)Math.Ceiling((response.Result.Total / (double)Model.PageSize));
+    var total = (int)Math.Ceiling(response.Result.Total / (double)Model.PageSize);
 }
 <div class="post-wrap archive">
     @foreach (var item in posts)
@@ -21,7 +21,7 @@
         }
     }
     <nav class="pagination">
-        @for (int i = 1; i <= total; i++)
+        @for (var i = 1; i <= total; i++)
         {
             if (Model.PageIndex == i)
             {

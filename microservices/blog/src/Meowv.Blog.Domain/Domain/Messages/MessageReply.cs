@@ -1,24 +1,23 @@
-﻿using MongoDB.Bson;
-using System;
+﻿using System;
+using MongoDB.Bson;
 
-namespace Meowv.Blog.Domain.Messages
+namespace Meowv.Blog.Domain.Messages;
+
+public class MessageReply : EntityBase
 {
-    public class MessageReply : EntityBase
+    public MessageReply()
     {
-        public MessageReply()
-        {
-            Id = ObjectId.GenerateNewId();
-            CreatedAt = DateTime.Now;
-        }
-
-        public string UserId { get; set; }
-
-        public string Name { get; set; }
-
-        public string Avatar { get; set; }
-
-        public string Content { get; set; }
-
-        public DateTime CreatedAt { get; set; }
+        Id = ObjectId.GenerateNewId();
+        CreatedAt = DateTime.Now;
     }
+
+    public string UserId { get; set; }
+
+    public string Name { get; set; }
+
+    public string Avatar { get; set; }
+
+    public string Content { get; set; }
+
+    public DateTime CreatedAt { get; set; }
 }

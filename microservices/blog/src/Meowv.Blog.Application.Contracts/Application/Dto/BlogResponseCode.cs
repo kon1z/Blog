@@ -1,8 +1,7 @@
-﻿namespace Meowv.Blog.Application.Dto
+﻿namespace Meowv.Blog.Application.Dto;
+
+public enum BlogResponseCode
 {
-    public enum BlogResponseCode : int
-    {
-        Succeed,
-        Failed
-    }
+    Succeed,
+    Failed
 }

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Meowv.Blog.Domain.Messages
+namespace Meowv.Blog.Domain.Messages;
+
+public class Message : MessageReply
 {
-    public class Message : MessageReply
-    {
-        public List<MessageReply> Reply { get; set; }
-    }
+    public List<MessageReply> Reply { get; set; }
 }

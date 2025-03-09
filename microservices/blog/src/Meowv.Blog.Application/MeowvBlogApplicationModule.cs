@@ -2,22 +2,22 @@
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
-namespace Meowv.Blog
+namespace Meowv.Blog;
+
+[DependsOn(
+    typeof(AbpDddApplicationModule),
+    typeof(AbpAutoMapperModule),
+    typeof(MeowvBlogDomainModule),
+    typeof(MeowvBlogApplicationContractsModule)
+)]
+public class MeowvBlogApplicationModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule),
-        typeof(MeowvBlogCoreModule)
-    )]
-    public class MeowvBlogApplicationModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpAutoMapperOptions>(options =>
         {
-            Configure<AbpAutoMapperOptions>(options =>
-            {
-                options.AddMaps<MeowvBlogApplicationModule>();
-                options.AddProfile<MeowvBlogApplicationAutoMapperProfile>();
-            });
-        }
+            options.AddMaps<MeowvBlogApplicationModule>();
+            options.AddProfile<MeowvBlogApplicationAutoMapperProfile>();
+        });
     }
 }

@@ -11,4 +11,8 @@
     <PackageReference Include="Vditor" Version="0.1.0-nightly-201209082656" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\microservices\blog\src\Meowv.Blog.HttpApi.Client\Meowv.Blog.HttpApi.Client.csproj" />
+  </ItemGroup>
+
 </Project>

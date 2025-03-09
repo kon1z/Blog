@@ -1,59 +1,55 @@
-using Meowv.Blog.Extensions;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using System;
 using System.Threading.Tasks;
 
-namespace Meowv.Blog.Api
+namespace Meowv.Blog.HttpApi.Host;
+public class Program
 {
-    public class Program
+    public static async Task<int> Main(string[] args)
     {
-        public static async Task Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
+        Log.Logger = new LoggerConfiguration()
 #if DEBUG
-                .MinimumLevel.Debug()
+            .MinimumLevel.Debug()
 #else
-                .MinimumLevel.Information()
+            .MinimumLevel.Information()
 #endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
-#if DEBUG
-                .WriteTo.Async(c => c.Console())
-#endif
-                .CreateLogger();
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
+            .Enrich.FromLogContext()
+            .WriteTo.Async(c => c.File("Logs/logs.txt"))
+            .WriteTo.Async(c => c.Console())
+            .CreateLogger();
 
-            try
-            {
-                Log.Information("Application Starting.");
-                await CreateHostBuilder(args).Build().RunAsync();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Application terminated unexpectedly!");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-                Log.Information("Application has closed!");
-            }
+        try
+        {
+            Log.Information("Starting MyCompanyName.MyProjectName.HttpApi.Host.");
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Host.AddAppSettingsSecretsJson()
+                .UseAutofac()
+                .UseSerilog();
+            await builder.AddApplicationAsync<MeowvBlogHttpApiHostModule>();
+            var app = builder.Build();
+            await app.InitializeApplicationAsync();
+            await app.RunAsync();
+            return 0;
         }
+        catch (Exception ex)
+        {
+            if (ex is HostAbortedException)
+            {
+                throw;
+            }
 
-        internal static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    config.AddYamlFile("appsettings.yml", optional: true, reloadOnChange: true);
-
-                    var configDictionary = config.Build().ToDictionary();
-                    Log.Information("appsettings {@appsettings}", configDictionary);
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                }).UseAutofac().UseSerilog();
+            Log.Fatal(ex, "Host terminated unexpectedly!");
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
 }

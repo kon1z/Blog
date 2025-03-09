@@ -1,38 +1,36 @@
-﻿using Meowv.Blog.Caching;
-using Meowv.Blog.Caching.Blog;
+﻿using System.Threading.Tasks;
+using Meowv.Blog.Caching;
 using Meowv.Blog.Domain.Blog;
-using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
 
-namespace Meowv.Blog.Application.Blog.EventHandlers
+namespace Meowv.Blog.Application.Blog.EventHandlers;
+
+public class FriendLinkEventHandler : ILocalEventHandler<EntityCreatedEventData<FriendLink>>,
+    ILocalEventHandler<EntityDeletedEventData<FriendLink>>,
+    ILocalEventHandler<EntityUpdatedEventData<FriendLink>>,
+    ITransientDependency
 {
-    public class FriendLinkEventHandler : ILocalEventHandler<EntityCreatedEventData<FriendLink>>,
-                                          ILocalEventHandler<EntityDeletedEventData<FriendLink>>,
-                                          ILocalEventHandler<EntityUpdatedEventData<FriendLink>>,
-                                          ITransientDependency
+    private readonly IBlogCacheAppService _cacheApp;
+
+    public FriendLinkEventHandler(IBlogCacheAppService cacheApp)
     {
-        private readonly IBlogCacheService _cache;
+        _cacheApp = cacheApp;
+    }
 
-        public FriendLinkEventHandler(IBlogCacheService cache)
-        {
-            _cache = cache;
-        }
+    public async Task HandleEventAsync(EntityCreatedEventData<FriendLink> eventData)
+    {
+        await _cacheApp.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
+    }
 
-        public async Task HandleEventAsync(EntityCreatedEventData<FriendLink> eventData)
-        {
-            await _cache.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
-        }
+    public async Task HandleEventAsync(EntityDeletedEventData<FriendLink> eventData)
+    {
+        await _cacheApp.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
+    }
 
-        public async Task HandleEventAsync(EntityDeletedEventData<FriendLink> eventData)
-        {
-            await _cache.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
-        }
-
-        public async Task HandleEventAsync(EntityUpdatedEventData<FriendLink> eventData)
-        {
-            await _cache.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
-        }
+    public async Task HandleEventAsync(EntityUpdatedEventData<FriendLink> eventData)
+    {
+        await _cacheApp.RemoveAsync(CachingConsts.CachePrefix.Blog_FriendLink);
     }
 }

@@ -1,79 +1,77 @@
-﻿using Meowv.Blog.Dto.Blog;
-using Meowv.Blog.Dto.Blog.Params;
-using Meowv.Blog.Response;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 
-namespace Meowv.Blog.Admin.Pages.FriendLinks
+namespace Meowv.Blog.Admin.Pages.FriendLinks;
+
+public partial class FriendLinkList
 {
-    public partial class FriendLinkList
+    private string friendlinkId;
+
+    private UpdateFriendLinkInput input = new UpdateFriendLinkInput();
+    private List<GetAdminFriendLinkDto> links;
+
+    private bool visible;
+
+    protected override async Task OnInitializedAsync()
     {
-        List<GetAdminFriendLinkDto> links;
+        links = await GetFriendLinkListAsync();
+    }
 
-        bool visible = false;
+    public async Task<List<GetAdminFriendLinkDto>> GetFriendLinkListAsync()
+    {
+        var response =
+            await GetResultAsync<BlogResponse<List<GetAdminFriendLinkDto>>>("api/meowv/blog/admin/friendlinks");
+        return response.Result;
+    }
 
-        string friendlinkId;
-
-        UpdateFriendLinkInput input = new UpdateFriendLinkInput();
-
-        protected override async Task OnInitializedAsync()
+    public async Task DeleteAsync(string id)
+    {
+        var response = await GetResultAsync<BlogResponse>($"api/meowv/blog/friendlink/{id}", method: HttpMethod.Delete);
+        if (response.Success)
         {
+            await Message.Success("删除成功", 0.5);
             links = await GetFriendLinkListAsync();
         }
-
-        public async Task<List<GetAdminFriendLinkDto>> GetFriendLinkListAsync()
+        else
         {
-            var response = await GetResultAsync<BlogResponse<List<GetAdminFriendLinkDto>>>("api/meowv/blog/admin/friendlinks");
-            return response.Result;
+            await Message.Error("删除失败");
         }
+    }
 
-        public async Task DeleteAsync(string id)
+    private void Close()
+    {
+        visible = false;
+    }
+
+    private void Open(GetAdminFriendLinkDto dto)
+    {
+        friendlinkId = dto.Id;
+        input.Name = dto.Name;
+        input.Url = dto.Url;
+
+        visible = true;
+    }
+
+    public async Task HandleSubmit()
+    {
+        if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Url)) return;
+
+        var json = JsonSerializer.Serialize(input);
+
+        var response =
+            await GetResultAsync<BlogResponse>($"api/meowv/blog/friendlink/{friendlinkId}", json, HttpMethod.Put);
+        if (response.Success)
         {
-            var response = await GetResultAsync<BlogResponse>($"api/meowv/blog/friendlink/{id}", method: HttpMethod.Delete);
-            if (response.Success)
-            {
-                await Message.Success("删除成功", 0.5);
-                links = await GetFriendLinkListAsync();
-            }
-            else
-            {
-                await Message.Error("删除失败");
-            }
+            Close();
+            await Message.Success("Successful", 0.5);
+            links = await GetFriendLinkListAsync();
         }
-
-        private void Close() => visible = false;
-
-        private void Open(GetAdminFriendLinkDto dto)
+        else
         {
-            friendlinkId = dto.Id;
-            input.Name = dto.Name;
-            input.Url = dto.Url;
-
-            visible = true;
-        }
-
-        public async Task HandleSubmit()
-        {
-            if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Url))
-            {
-                return;
-            }
-
-            var json = JsonConvert.SerializeObject(input);
-
-            var response = await GetResultAsync<BlogResponse>($"api/meowv/blog/friendlink/{friendlinkId}", json, HttpMethod.Put);
-            if (response.Success)
-            {
-                Close();
-                await Message.Success("Successful", 0.5);
-                links = await GetFriendLinkListAsync();
-            }
-            else
-            {
-                await Message.Error(response.Message);
-            }
+            await Message.Error(response.Message);
         }
     }
 }

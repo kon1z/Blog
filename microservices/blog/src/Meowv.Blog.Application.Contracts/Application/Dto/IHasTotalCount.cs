@@ -1,7 +1,6 @@
-﻿namespace Meowv.Blog.Application.Dto
+﻿namespace Meowv.Blog.Application.Dto;
+
+public interface IHasTotalCount
 {
-    public interface IHasTotalCount
-    {
-        int Total { get; set; }
-    }
+    int Total { get; set; }
 }

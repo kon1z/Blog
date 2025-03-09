@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Meowv.Blog.Options
-{
-    public class SignatureOptions
-    {
-        public string Path { get; set; }
+namespace Meowv.Blog.Options;
 
-        public Dictionary<string, string> Urls { get; set; } = new Dictionary<string, string>();
-    }
+public class SignatureOptions
+{
+    public string Path { get; set; }
+
+    public Dictionary<string, string> Urls { get; set; } = new();
 }

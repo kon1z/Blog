@@ -4,9 +4,15 @@
 <PageContainer>
     <Breadcrumb>
         <Breadcrumb>
-            <BreadcrumbItem><Icon Type="home"></Icon></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="link"></Icon><span>友链管理</span></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="plus-square"></Icon><span>新增友链</span></BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="home"></Icon>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="link"></Icon><span>友链管理</span>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="plus-square"></Icon><span>新增友链</span>
+            </BreadcrumbItem>
         </Breadcrumb>
     </Breadcrumb>
     <ChildContent>
@@ -16,10 +22,10 @@
                   WrapperColSpan="8"
                   OnFinish="HandleSubmit">
                 <FormItem Label="名称">
-                    <Input @bind-Value="@context.Name" />
+                    <Input @bind-Value="@context.Name"/>
                 </FormItem>
                 <FormItem Label="链接">
-                    <Input @bind-Value="@context.Url" />
+                    <Input @bind-Value="@context.Url"/>
                 </FormItem>
                 <FormItem WrapperColOffset="8" WrapperColSpan="8">
                     <Button Type="@ButtonType.Primary" HtmlType="submit">保存</Button>

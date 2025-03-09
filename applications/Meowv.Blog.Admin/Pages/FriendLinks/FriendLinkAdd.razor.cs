@@ -1,35 +1,29 @@
-﻿using Meowv.Blog.Dto.Blog.Params;
-using Meowv.Blog.Response;
-using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
+﻿using Meowv.Blog.Application.Dto;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Meowv.Blog.Admin.Pages.FriendLinks
+namespace Meowv.Blog.Admin.Pages.FriendLinks;
+
+public partial class FriendLinkAdd
 {
-    public partial class FriendLinkAdd
+    private CreateFriendLinkInput input = new CreateFriendLinkInput();
+
+    public async Task HandleSubmit()
     {
-        CreateFriendLinkInput input = new CreateFriendLinkInput();
+        if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Url)) return;
 
-        public async Task HandleSubmit()
+        var json = JsonSerializer.Serialize(input);
+
+        var response = await GetResultAsync<BlogResponse>("api/meowv/blog/friendlink", json, HttpMethod.Post);
+        if (response.Success)
         {
-            if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Url))
-            {
-                return;
-            }
-
-            var json = JsonConvert.SerializeObject(input);
-
-            var response = await GetResultAsync<BlogResponse>("api/meowv/blog/friendlink", json, HttpMethod.Post);
-            if (response.Success)
-            {
-                await Message.Success("Successful", 0.5);
-                NavigationManager.NavigateTo("/friendlinks/list");
-            }
-            else
-            {
-                await Message.Error(response.Message);
-            }
+            await Message.Success("Successful", 0.5);
+            NavigationManager.NavigateTo("/friendlinks/list");
+        }
+        else
+        {
+            await Message.Error(response.Message);
         }
     }
 }

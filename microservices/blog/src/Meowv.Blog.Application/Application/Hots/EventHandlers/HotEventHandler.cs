@@ -1,23 +1,22 @@
-﻿using Meowv.Blog.Caching.Hots;
+﻿using System.Threading.Tasks;
+using Meowv.Blog.Caching;
 using Meowv.Blog.EventData.Hots;
-using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus;
 
-namespace Meowv.Blog.Application.Hots.EventHandlers
+namespace Meowv.Blog.Application.Hots.EventHandlers;
+
+public class HotEventHandler : ILocalEventHandler<HotWorkerEventData>, ITransientDependency
 {
-    public class HotEventHandler : ILocalEventHandler<HotWorkerEventData>, ITransientDependency
+    private readonly IHotCacheAppService _cacheApp;
+
+    public HotEventHandler(IHotCacheAppService cacheApp)
     {
-        private readonly IHotCacheService _cache;
+        _cacheApp = cacheApp;
+    }
 
-        public HotEventHandler(IHotCacheService cache)
-        {
-            _cache = cache;
-        }
-
-        public async Task HandleEventAsync(HotWorkerEventData eventData)
-        {
-            await _cache.RemoveAsync(CachingConsts.CachePrefix.Hot);
-        }
+    public async Task HandleEventAsync(HotWorkerEventData eventData)
+    {
+        await _cacheApp.RemoveAsync(CachingConsts.CachePrefix.Hot);
     }
 }

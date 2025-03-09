@@ -1,36 +1,23 @@
-﻿using Meowv.Blog.Domain.Users;
-using Meowv.Blog.Domain.Users.Repositories;
-using Meowv.Blog.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
-namespace Meowv.Blog.DataSeed
+namespace Meowv.Blog.DataSeed;
+
+public class UserDataSeed : ITransientDependency
 {
-    public class UserDataSeed : ITransientDependency
+    public async Task SeedAsync()
     {
-        private readonly IUserRepository _users;
+        // TODO 重构种子数据
 
-        public UserDataSeed(IUserRepository user)
-        {
-            _users = user;
-        }
+        //if (await _users.GetCountAsync() > 0) return;
 
-        public async Task SeedAsync()
-        {
-            if (await _users.GetCountAsync() > 0) return;
+        //var path = Path.Combine(Directory.GetCurrentDirectory(), "users.json");
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "users.json");
+        //var users = await path.FromJsonFile<List<User>>("RECORDS");
+        //if (!users.Any()) return;
 
-            var users = await path.FromJsonFile<List<User>>("RECORDS");
-            if (!users.Any()) return;
+        //await _users.InsertManyAsync(users);
 
-            await _users.InsertManyAsync(users);
-
-            Console.WriteLine($"Successfully processed {users.Count} user data.");
-        }
+        //Console.WriteLine($"Successfully processed {users.Count} user data.");
     }
 }

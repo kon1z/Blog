@@ -1,36 +1,23 @@
-﻿using Meowv.Blog.Domain.Sayings;
-using Meowv.Blog.Domain.Sayings.Repositories;
-using Meowv.Blog.Extensions;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 
-namespace Meowv.Blog.DataSeed
+namespace Meowv.Blog.DataSeed;
+
+public class SayingDataSeed : ITransientDependency
 {
-    public class SayingDataSeed : ITransientDependency
+    public Task SeedAsync()
     {
-        private readonly ISayingRepository _sayings;
+        // 重构种子数据
+        return Task.CompletedTask;
+        //if (await _sayings.GetCountAsync() > 0) return;
 
-        public SayingDataSeed(ISayingRepository sayings)
-        {
-            _sayings = sayings;
-        }
+        //var path = Path.Combine(Directory.GetCurrentDirectory(), "sayings.json");
 
-        public async Task SeedAsync()
-        {
-            if (await _sayings.GetCountAsync() > 0) return;
+        //var sayings = await path.FromJsonFile<List<string>>("RECORDS");
+        //if (!sayings.Any()) return;
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "sayings.json");
+        //await _sayings.InsertManyAsync(sayings.Select(item => new Saying { Content = item }));
 
-            var sayings = await path.FromJsonFile<List<string>>("RECORDS");
-            if (!sayings.Any()) return;
-
-            await _sayings.InsertManyAsync(sayings.Select(item => new Saying { Content = item }));
-
-            Console.WriteLine($"Successfully processed {sayings.Count} saying data.");
-        }
+        //Console.WriteLine($"Successfully processed {sayings.Count} saying data.");
     }
 }

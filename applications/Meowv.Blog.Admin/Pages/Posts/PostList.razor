@@ -1,20 +1,27 @@
 ﻿@page "/posts/list"
+@using Meowv.Blog.Application.Dto
 @inherits PageBase
 
 <PageContainer>
     <Breadcrumb>
         <Breadcrumb>
-            <BreadcrumbItem><Icon Type="home"></Icon></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="read"></Icon><span>文章管理</span></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="bars"></Icon><span>文章列表</span></BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="home"></Icon>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="read"></Icon><span>文章管理</span>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="bars"></Icon><span>文章列表</span>
+            </BreadcrumbItem>
         </Breadcrumb>
     </Breadcrumb>
     <ChildContent>
         <Card>
             <Table TItem="GetAdminPostDto"
                    DataSource="@posts"
-                   Bordered=@true
-                   Size=@TableSize.Small
+                   Bordered="@true"
+                   Size="@TableSize.Small"
                    Total="total"
                    @bind-PageIndex="page"
                    @bind-PageSize="limit"
@@ -36,12 +43,12 @@
                 <ActionColumn Title="操作">
                     <Space Size="@("small")">
                         <SpaceItem>
-                            <Button Type="@ButtonType.Primary" OnClick="(() => Goto(context.Id))">编辑</Button>
+                            <Button Type="@ButtonType.Primary" OnClick="() => Goto(context.Id)">编辑</Button>
                         </SpaceItem>
                         <SpaceItem>
                             <Popconfirm Title="确定删除吗?"
                                         Icon="close-circle"
-                                        OnConfirm="(async () => await DeleteAsync(context.Id))">
+                                        OnConfirm="async () => await DeleteAsync(context.Id)">
                                 <Button Danger>删除</Button>
                             </Popconfirm>
                         </SpaceItem>

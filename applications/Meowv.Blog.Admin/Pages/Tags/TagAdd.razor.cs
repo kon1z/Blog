@@ -1,35 +1,29 @@
-﻿using Meowv.Blog.Dto.Blog.Params;
-using Meowv.Blog.Response;
-using Microsoft.AspNetCore.Components;
-using Newtonsoft.Json;
-using System.Net.Http;
+﻿using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 
-namespace Meowv.Blog.Admin.Pages.Tags
+namespace Meowv.Blog.Admin.Pages.Tags;
+
+public partial class TagAdd
 {
-    public partial class TagAdd
+    private CreateTagInput input = new CreateTagInput();
+
+    public async Task HandleSubmit()
     {
-        CreateTagInput input = new CreateTagInput();
+        if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Alias)) return;
 
-        public async Task HandleSubmit()
+        var json = JsonSerializer.Serialize(input);
+
+        var response = await GetResultAsync<BlogResponse>("api/meowv/blog/tag", json, HttpMethod.Post);
+        if (response.Success)
         {
-            if (string.IsNullOrWhiteSpace(input.Name) || string.IsNullOrWhiteSpace(input.Alias))
-            {
-                return;
-            }
-
-            var json = JsonConvert.SerializeObject(input);
-
-            var response = await GetResultAsync<BlogResponse>("api/meowv/blog/tag", json, HttpMethod.Post);
-            if (response.Success)
-            {
-                await Message.Success("Successful", 0.5);
-                NavigationManager.NavigateTo("/tags/list");
-            }
-            else
-            {
-                await Message.Error(response.Message);
-            }
+            await Message.Success("Successful", 0.5);
+            NavigationManager.NavigateTo("/tags/list");
+        }
+        else
+        {
+            await Message.Error(response.Message);
         }
     }
 }

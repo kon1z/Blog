@@ -1,7 +1,6 @@
-﻿namespace Meowv.Blog.Domain.Sayings
+﻿namespace Meowv.Blog.Domain.Sayings;
+
+public class Saying : EntityBase
 {
-    public class Saying : EntityBase
-    {
-        public string Content { get; set; }
-    }
+    public string Content { get; set; }
 }

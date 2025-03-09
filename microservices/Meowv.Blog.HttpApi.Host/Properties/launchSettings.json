@@ -1,29 +1,13 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:33333",
-      "sslPort": 44380
-    }
-  },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "Meowv.Blog.Api": {
+      "applicationUrl": "https://localhost:44380",
       "commandName": "Project",
-      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "dotnetRunMessages": "true",
-      "applicationUrl": "https://localhost:44380"
+      "launchBrowser": true
     },
     "Docker": {
       "commandName": "Docker",

@@ -10,7 +10,7 @@
     <div class="tag-cloud-tags">
         @foreach (var item in tags)
         {
-            <a href="/tag/@item.Alias">@item.Name<small>(@item.Total)</small></a>
+            <a href="/tag/@item.Alias">@item.Name<small>(item.Total)</small></a >
         }
     </div>
 </div>

@@ -1,6 +1,5 @@
-﻿@using Microsoft.JSInterop
-@using Microsoft.AspNetCore.Components.Web
-@using Meowv.Blog.Web.Models.Gobang
+﻿@using Meowv.Blog.Web.Models.Gobang
+@using Microsoft.JSInterop
 @inject IJSRuntime _jsRuntime
 
 <div class="post-wrap">
@@ -20,12 +19,22 @@
         </div>
         <div class="chess-info">
             <h1>五子棋⚫⚪</h1>
-            <p><b>⚡是时候表演真正的技术了，快来一场人机大战吧⚡</b></p>
-            <p><label><input type="radio" name="chess" checked="checked" @onclick="@(() => first = "ai")"> 电脑先手</label></p>
-            <p><label><input type="radio" name="chess" @onclick="@(() => first = "me")"> 我先手</label></p>
-            <p><button class="box-btn" @onclick="StartGame">@(IsInGame ? "结束游戏" : "开始游戏")</button></p>
+            <p>
+                <b>⚡是时候表演真正的技术了，快来一场人机大战吧⚡</b>
+            </p>
+            <p>
+                <label><input type="radio" name="chess" checked="checked" @onclick="@(() => first = "ai")"> 电脑先手</label>
+            </p>
+            <p>
+                <label><input type="radio" name="chess" @onclick="@(() => first = "me")"> 我先手</label>
+            </p>
+            <p>
+                <button class="box-btn" @onclick="StartGame">@(IsInGame ? "结束游戏" : "开始游戏")</button>
+            </p>
             <div class="chess-msg">
-                <p><b>@msgs</b></p>
+                <p>
+                    <b>@msgs</b>
+                </p>
                 <p>游戏规则：</p>
                 <span>（1）请选择电脑先手还是你先手，黑棋始终先手。</span>
                 <span>（2）点击开始游戏按钮开始对局。</span>
@@ -43,38 +52,39 @@
 </div>
 
 @code {
-        /// <summary>
-        /// 棋盘二维数组 19✖19
-        /// </summary>
+
+    /// <summary>
+    ///     棋盘二维数组 19✖19
+    /// </summary>
     private int[,] Chess = new int[19, 19];
 
     /// <summary>
-    /// 先手
+    ///     先手
     /// </summary>
     private string first = "ai";
 
     /// <summary>
-    /// 是否在游戏中
+    ///     是否在游戏中
     /// </summary>
-    private bool IsInGame = false;
+    private bool IsInGame;
 
     /// <summary>
-    /// 显示消息
+    ///     显示消息
     /// </summary>
     private string msgs;
 
     /// <summary>
-    /// 默认电脑为黑子
+    ///     默认电脑为黑子
     /// </summary>
     private int AIChess = 1;
 
     /// <summary>
-    /// 默认我为白子
+    ///     默认我为白子
     /// </summary>
     private int MineChess = 2;
 
     /// <summary>
-    /// 开始游戏
+    ///     开始游戏
     /// </summary>
     private void StartGame()
     {
@@ -114,7 +124,7 @@
     }
 
     /// <summary>
-    /// 我方落子
+    ///     我方落子
     /// </summary>
     /// <param name="row"></param>
     /// <param name="cell"></param>
@@ -147,7 +157,7 @@
     }
 
     /// <summary>
-    /// 电脑落子
+    ///     电脑落子
     /// </summary>
     /// <param name="chess"></param>
     /// <returns></returns>
@@ -158,16 +168,16 @@
         // 电脑
         var aiPonints = new List<ValuedPoint>();
 
-        for (int i = 0; i < 19; i++)
+        for (var i = 0; i < 19; i++)
         {
-            for (int j = 0; j < 19; j++)
+            for (var j = 0; j < 19; j++)
             {
                 // 还未落子的位置列表
                 if (Chess[i, j] == 0)
                 {
                     minePoints.Add(GetValuedPoint(chess, i, j));
 
-                    aiPonints.Add(GetValuedPoint((chess == 1 ? 2 : 1), i, j));
+                    aiPonints.Add(GetValuedPoint(chess == 1 ? 2 : 1, i, j));
                 }
             }
         }
@@ -188,7 +198,6 @@
                     await _jsRuntime.InvokeVoidAsync("alert", "\n电脑赢了，你个渣渣👎");
 
                     IsInGame = !IsInGame;
-                    return;
                 }
             }
             else
@@ -199,14 +208,13 @@
                 {
                     await _jsRuntime.InvokeVoidAsync("alert", "\n电脑赢了，你个渣渣👎");
                     IsInGame = !IsInGame;
-                    return;
                 }
             }
         }
     }
 
     /// <summary>
-    /// 判断是否赢了
+    ///     判断是否赢了
     /// </summary>
     /// <param name="chess"></param>
     /// <param name="row"></param>
@@ -392,7 +400,7 @@
     }
 
     /// <summary>
-    /// 获取当前位置点的价值分
+    ///     获取当前位置点的价值分
     /// </summary>
     /// <param name="chess"></param>
     /// <param name="row"></param>
@@ -566,6 +574,7 @@
                 else
                     VScore = validPlace <= 4 ? 0 : 8000;
             }
+
             if (score == 3)
             {
                 if (!isDead)
@@ -573,6 +582,7 @@
                 else
                     VScore = validPlace <= 4 ? 0 : 2000;
             }
+
             if (score == 2)
             {
                 if (!isDead)
@@ -657,6 +667,7 @@
                 else
                     PScore = validPlace <= 4 ? 0 : 9000;
             }
+
             if (score == 3)
             {
                 if (!isDead)
@@ -664,6 +675,7 @@
                 else
                     PScore = validPlace <= 4 ? 0 : 3000;
             }
+
             if (score == 2)
             {
                 if (!isDead)
@@ -778,4 +790,5 @@
             }
         };
     }
+
 }

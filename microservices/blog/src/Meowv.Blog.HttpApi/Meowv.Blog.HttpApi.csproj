@@ -2,8 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Meowv.Blog</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Administrator\.nuget\packages\volo.abp.aspnetcore.mvc\9.1.0\contentFiles\any\net9.0\Volo.Abp.AspNetCore.Mvc.abppkg.analyze.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meowv.Blog.Application.Contracts\Meowv.Blog.Application.Contracts.csproj" />
+  </ItemGroup>
 
 </Project>

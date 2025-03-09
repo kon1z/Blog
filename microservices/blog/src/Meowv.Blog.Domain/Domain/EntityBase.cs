@@ -1,9 +1,8 @@
 ﻿using MongoDB.Bson;
 using Volo.Abp.Domain.Entities;
 
-namespace Meowv.Blog.Domain
+namespace Meowv.Blog.Domain;
+
+public abstract class EntityBase : Entity<ObjectId>
 {
-    public abstract class EntityBase : Entity<ObjectId>
-    {
-    }
 }

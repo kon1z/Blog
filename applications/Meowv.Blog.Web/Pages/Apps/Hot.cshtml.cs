@@ -1,31 +1,29 @@
-using Meowv.Blog.Dto.Hots;
-using Meowv.Blog.Response;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 
-namespace Meowv.Blog.Web.Pages.Apps
+namespace Meowv.Blog.Web.Pages.Apps;
+
+public class HotModel : PageBase
 {
-    public class HotModel : PageBase
+    public HotModel(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
     {
-        public HotModel(IHttpClientFactory httpClientFactory) : base(httpClientFactory)
-        {
-        }
+    }
 
-        public string Id { get; set; }
+    public string Id { get; set; }
 
-        public BlogResponse<List<HotSourceDto>> HotSources { get; set; }
+    public BlogResponse<List<HotSourceDto>> HotSources { get; set; }
 
-        public BlogResponse<HotDto> Hot { get; set; }
+    public BlogResponse<HotDto> Hot { get; set; }
 
-        public async Task OnGetAsync(string id)
-        {
-            HotSources = await GetResultAsync<BlogResponse<List<HotSourceDto>>>("api/meowv/hots/source");
+    public async Task OnGetAsync(string id)
+    {
+        HotSources = await GetResultAsync<BlogResponse<List<HotSourceDto>>>("api/meowv/hots/source");
 
-            Id = string.IsNullOrEmpty(id) ? HotSources.Result.FirstOrDefault().Id : id;
+        Id = string.IsNullOrEmpty(id) ? HotSources.Result.FirstOrDefault().Id : id;
 
-            Hot = await GetResultAsync<BlogResponse<HotDto>>($"api/meowv/hots/{Id}");
-        }
+        Hot = await GetResultAsync<BlogResponse<HotDto>>($"api/meowv/hots/{Id}");
     }
 }

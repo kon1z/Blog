@@ -4,8 +4,12 @@
 <PageContainer>
     <Breadcrumb>
         <Breadcrumb>
-            <BreadcrumbItem><Icon Type="home"></Icon></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="cloud"></Icon><span>CDN刷新</span></BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="home"></Icon>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="cloud"></Icon><span>CDN刷新</span>
+            </BreadcrumbItem>
         </Breadcrumb>
     </Breadcrumb>
     <ChildContent>
@@ -16,7 +20,7 @@
                         <Tab>URL刷新</Tab>
                         <ChildContent>
                             <TextArea Placeholder="输入需要刷新的URL (需要http://或https://)，一行一个" MinRows="10" MaxRows="20" @bind-Value="@urls1" />
-                            <br /><br />
+                            <br/><br/>
                             <Button type="@ButtonType.Primary" OnClick="SubmitAsync">提交并刷新</Button>
                         </ChildContent>
                     </TabPane>
@@ -24,7 +28,7 @@
                         <Tab>目录刷新</Tab>
                         <ChildContent>
                             <TextArea Placeholder="输入需要刷新目录的URL (需要http://或https://)，一行一个" MinRows="10" MaxRows="20" @bind-Value="@urls2" />
-                            <br /><br />
+                            <br/><br/>
                             <Button type="@ButtonType.Primary" OnClick="SubmitAsync">提交并刷新</Button>
                         </ChildContent>
                     </TabPane>
@@ -32,7 +36,7 @@
                         <Tab>URL预热</Tab>
                         <ChildContent>
                             <TextArea Placeholder="输入需要预热的URL (需要http://或https://)，一行一个" MinRows="10" MaxRows="20" @bind-Value="@urls3" />
-                            <br /><br />
+                            <br/><br/>
                             <Button type="@ButtonType.Primary" OnClick="SubmitAsync">提交并预热</Button>
                         </ChildContent>
                     </TabPane>

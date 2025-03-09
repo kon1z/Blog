@@ -2,8 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Meowv.Blog</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" Version="9.1.0" />
+  </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
-﻿namespace Meowv.Blog.EventData.Hots
+﻿namespace Meowv.Blog.EventData.Hots;
+
+public class HotWorkerEventData
 {
-    public class HotWorkerEventData
-    {
-    }
 }

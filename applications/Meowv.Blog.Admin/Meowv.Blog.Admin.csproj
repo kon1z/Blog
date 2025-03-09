@@ -35,5 +35,9 @@
     <Watch Include="**\*.razor" />
     <Watch Include="**\*.less" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\microservices\blog\src\Meowv.Blog.HttpApi.Client\Meowv.Blog.HttpApi.Client.csproj" />
+  </ItemGroup>
   
 </Project>

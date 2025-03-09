@@ -1,4 +1,6 @@
 ﻿@page "/post/{url}"
+@using Meowv.Blog.Web.Components
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Meowv.Blog.Web.Pages.Posts.PostModel
 @{
     var post = Model.Post.Result;
@@ -19,9 +21,9 @@
         </div>
     </header>
     <div class="post-content">
-        <component type="typeof(Meowv.Blog.Web.Components.VditorPreview)"
+        <component type="typeof(VditorPreview)"
                    render-mode="ServerPrerendered"
-                   param-Markdown="@post.Markdown" />
+                   param-Markdown="@post.Markdown"/>
     </div>
     <section class="post-copyright">
         <p class="copyright-item">
@@ -30,7 +32,9 @@
         </p>
         <p class="copyright-item">
             <span>Permalink:</span>
-            <span><a href="/post/@post.Url">https://meowv.com/post/@post.Url</a></span>
+            <span>
+                <a href="/post/@post.Url">https://meowv.com/post/@post.Url</a>
+            </span>
         </p>
         <p class="copyright-item">
             <span>License:</span>
@@ -62,9 +66,11 @@
         }
     </section>
 </article>
+
 @section styles{
-    <link href="https://cdn.jsdelivr.net/npm/vditor@3.4.7/dist/index.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/vditor@3.4.7/dist/index.css" rel="stylesheet"/>
 }
+
 @section scripts{
     <script src="https://cdn.jsdelivr.net/npm/vditor@3.4.7/dist/index.min.js"></script>
     <script src="_framework/blazor.server.js"></script>

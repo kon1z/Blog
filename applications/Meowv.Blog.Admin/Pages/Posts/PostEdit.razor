@@ -4,16 +4,22 @@
 <PageContainer>
     <Breadcrumb>
         <Breadcrumb>
-            <BreadcrumbItem><Icon Type="home"></Icon></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="read"></Icon><span>文章管理</span></BreadcrumbItem>
-            <BreadcrumbItem><Icon Type="edit"></Icon><span>编辑文章</span></BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="home"></Icon>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="read"></Icon><span>文章管理</span>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+                <Icon Type="edit"></Icon><span>编辑文章</span>
+            </BreadcrumbItem>
         </Breadcrumb>
     </Breadcrumb>
     <ChildContent>
         <Card>
             <Form Model="@input">
                 <FormItem>
-                    <Input Size="@InputSize.Large" @bind-Value="@context.Title" Placeholder="在这里输入文章标题" />
+                    <Input Size="@InputSize.Large" @bind-Value="@context.Title" Placeholder="在这里输入文章标题"/>
                 </FormItem>
                 <FormItem>
                     <Vditor.Editor Placeholder="请开始尽情创作吧..."
@@ -22,14 +28,14 @@
                                    OnToolbarButtonClick="OnToolbarButtonClick"
                                    Toolbar="toolbar"
                                    Width="100%"
-                                   MinHeight="500" />
+                                   MinHeight="500"/>
                 </FormItem>
             </Form>
         </Card>
         <Drawer Closable="true"
                 Visible="visible"
                 Placement="right"
-                Title='("更新文章")'
+                Title='"更新文章"'
                 Width="500"
                 OnClose="_ => Close()">
             <Form Model="@input" OnFinish="HandleSubmit">
@@ -45,7 +51,7 @@
                     <AntDesign.Col Span="24">
                         @foreach (var item in lstTags)
                         {
-                            <Tag Mode="closeable" Color="blue" OnClose="()=>OnClose(item)">@item</Tag>
+                            <Tag Mode="closeable" Color="blue" OnClose="() => OnClose(item)">@item</Tag>
                         }
                         @if (inputVisible)
                         {
@@ -54,7 +60,7 @@
                                     <Input Placeholder="输入标签"
                                            @bind-Value="_inputValue"
                                            Style="margin-top:5px;width:100%;"
-                                           OnBlur="HandleInputConfirm" />
+                                           OnBlur="HandleInputConfirm"/>
                                 </AntDesign.Col>
                                 <AntDesign.Col Span="12">
                                     <Select Placeholder="选择已有的标签"
@@ -68,7 +74,7 @@
                                         <SelectOptions>
                                             @foreach (var item in tags)
                                             {
-                                                <SelectOption TItemValue="string" TItem="string" Value=@item Label=@item />
+                                                <SelectOption TItemValue="string" TItem="string" Value=@item Label=@item/>
                                             }
                                         </SelectOptions>
                                     </Select>
@@ -78,23 +84,23 @@
                         else
                         {
                             <Tag Mode="checkable" OnClick="OnChecked">
-                                <Icon Type="plus" />New Tag
+                                <Icon Type="plus"/>New Tag
                             </Tag>
                         }
                     </AntDesign.Col>
                 </Row>
-                <br />
+                <br/>
                 <Row Gutter="24">
                     <AntDesign.Col Span="24">
-                        <DatePicker @bind-Value="@pubTime" Style="width: 100%" Placeholder="@("发布日期")" TValue="DateTime?" ShowTime="@true" OnChange="@OnChange" Format="yyyy-MM-dd HH:mm:ss" />
+                        <DatePicker @bind-Value="@pubTime" Style="width: 100%" Placeholder="@("发布日期")" TValue="DateTime?" ShowTime="@true" OnChange="@OnChange" Format="yyyy-MM-dd HH:mm:ss"/>
                     </AntDesign.Col>
                 </Row>
-                <br />
+                <br/>
                 <FormItem>
-                    <Input @bind-Value="@context.Author" Placeholder="作者" />
+                    <Input @bind-Value="@context.Author" Placeholder="作者"/>
                 </FormItem>
                 <FormItem>
-                    <Input @bind-Value="@context.Url" Placeholder="链接" />
+                    <Input @bind-Value="@context.Url" Placeholder="链接"/>
                 </FormItem>
                 <FormItem>
                     <Button Type="@ButtonType.Primary" HtmlType="submit">发布</Button>

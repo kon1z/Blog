@@ -1,17 +1,16 @@
-﻿using MongoDB.Bson;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
-namespace Meowv.Blog.Domain.Blog.Repositories
+namespace Meowv.Blog.Domain.Blog.Repositories;
+
+public interface ITagRepository : IRepository<Tag, ObjectId>
 {
-    public interface ITagRepository : IRepository<Tag, ObjectId>
-    {
-        /// <summary>
-        /// Get tag list by names
-        /// </summary>
-        /// <param name="names"></param>
-        /// <returns></returns>
-        Task<List<Tag>> GetListAsync(List<string> names);
-    }
+    /// <summary>
+    ///     Get tag list by names
+    /// </summary>
+    /// <param name="names"></param>
+    /// <returns></returns>
+    Task<List<Tag>> GetListAsync(List<string> names);
 }

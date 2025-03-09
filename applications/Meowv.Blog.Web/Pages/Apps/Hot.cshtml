@@ -1,6 +1,6 @@
 ﻿@page "/hot/{id?}"
 @model Meowv.Blog.Web.Pages.Apps.HotModel
-@{ 
+@{
     ViewData["Title"] = "每日热点 - ";
 }
 <div class="hot-container">
@@ -15,7 +15,9 @@
             <ul>
                 @foreach (var item in Model.Hot.Result.Datas)
                 {
-                    <li><a target="_blank" href="@item.Url">@item.Title</a></li>
+                    <li>
+                        <a target="_blank" href="@item.Url">@item.Title</a>
+                    </li>
                 }
             </ul>
         </div>

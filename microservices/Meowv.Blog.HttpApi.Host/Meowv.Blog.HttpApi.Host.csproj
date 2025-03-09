@@ -18,17 +18,37 @@
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="9.1.0" />
     <PackageReference Include="Volo.Abp.Autofac" Version="9.1.0" />
-
-    <ProjectReference Include="..\Meowv.Blog.Application\Meowv.Blog.Application.csproj" />
-    <ProjectReference Include="..\Meowv.Blog.BackgroundWorkers\Meowv.Blog.BackgroundWorkers.csproj" />
-    <ProjectReference Include="..\Meowv.Blog.MongoDb\Meowv.Blog.MongoDb.csproj" />
+    <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="9.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.yml">
+    <Content Include=".\*.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include=".\*.xml">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove="C:\Users\Administrator\.nuget\packages\volo.abp.aspnetcore.mvc\9.1.0\contentFiles\any\net9.0\Volo.Abp.AspNetCore.Mvc.abppkg.analyze.json" />
+    <Content Remove="C:\Users\Administrator\.nuget\packages\volo.abp.aspnetcore.serilog\9.1.0\contentFiles\any\net9.0\Volo.Abp.AspNetCore.Serilog.abppkg.analyze.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="appsettings.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\blog\src\Meowv.Blog.Application\Meowv.Blog.Application.csproj" />
+    <ProjectReference Include="..\blog\src\Meowv.Blog.HttpApi\Meowv.Blog.HttpApi.csproj" />
+    <ProjectReference Include="..\blog\src\Meowv.Blog.MongoDb\Meowv.Blog.MongoDb.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -2,8 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Meowv.Blog</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Http.Client" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Meowv.Blog.Application.Contracts\Meowv.Blog.Application.Contracts.csproj" />
+  </ItemGroup>
 
 </Project>

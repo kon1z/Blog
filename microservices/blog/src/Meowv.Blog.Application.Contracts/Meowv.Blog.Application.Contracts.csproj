@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Meowv.Blog.Domain.Shared\Meowv.Blog.Domain.Shared.csproj" />
   </ItemGroup>
 

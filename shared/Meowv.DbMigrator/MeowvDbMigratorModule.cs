@@ -1,30 +1,28 @@
-﻿using Meowv.Blog.Extensions;
+﻿using System.IO;
+using Meowv.Blog;
+using Meowv.Blog.MongoDb;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
 using Volo.Abp.Autofac;
 using Volo.Abp.Data;
 using Volo.Abp.Modularity;
 
-namespace Meowv.Blog.DbMigrator
-{
-    [DependsOn(
-        typeof(AbpAutofacModule),
-        typeof(MeowvBlogApplicationModule),
-        typeof(MeowvBlogMongoDbModule)
-    )]
-    public class MeowvDbMigratorModule : AbpModule
-    {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                                                   .AddYamlFile("appsettings.yml", true, true)
-                                                   .Build();
+namespace Meowv.DbMigrator;
 
-            context.Services.Configure<AbpDbConnectionOptions>(options =>
-            {
-                options.ConnectionStrings.Default = config.GetSection("storage").GetValue<string>("mongodb");
-            });
-        }
+[DependsOn(
+    typeof(AbpAutofacModule),
+    typeof(MeowvBlogApplicationModule),
+    typeof(MeowvBlogMongoDbModule)
+)]
+public class MeowvDbMigratorModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        var config = ConfigurationHelper.BuildConfiguration();
+
+        context.Services.Configure<AbpDbConnectionOptions>(options =>
+        {
+            options.ConnectionStrings.Default = config.GetSection("storage").GetValue<string>("mongodb");
+        });
     }
 }

@@ -1,6 +1,5 @@
-﻿namespace Meowv.Blog.Application.Dto
+﻿namespace Meowv.Blog.Application.Dto;
+
+public interface IPagedList<T> : IListResult<T>, IHasTotalCount
 {
-    public interface IPagedList<T> : IListResult<T>, IHasTotalCount
-    {
-    }
 }
