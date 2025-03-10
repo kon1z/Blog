@@ -1,13 +1,13 @@
-﻿using Meowv.Blog.Application.Dto;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Domain.Messages;
 using Meowv.Blog.Domain.Messages.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Meowv.Blog.Application.Messages.Services;
 
@@ -53,7 +53,7 @@ public class MessageAppService : ServiceBase, IMessageAppService
     {
         var response = new BlogResponse();
 
-        var message = await _messages.FindAsync(id.ToObjectId());
+        var message = await _messages.FindAsync(id.ToGuid());
         if (message is null)
         {
             response.IsFailed("The message id not exists.");
@@ -85,7 +85,7 @@ public class MessageAppService : ServiceBase, IMessageAppService
     {
         var response = new BlogResponse();
 
-        var message = await _messages.FindAsync(id.ToObjectId());
+        var message = await _messages.FindAsync(id.ToGuid());
         if (message is null)
         {
             response.IsFailed("The message id not exists.");
@@ -99,7 +99,7 @@ public class MessageAppService : ServiceBase, IMessageAppService
                 return response;
             }
 
-        await _messages.DeleteAsync(id.ToObjectId());
+        await _messages.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -115,14 +115,14 @@ public class MessageAppService : ServiceBase, IMessageAppService
     {
         var response = new BlogResponse();
 
-        var message = await _messages.FindAsync(id.ToObjectId());
+        var message = await _messages.FindAsync(id.ToGuid());
         if (message is null)
         {
             response.IsFailed("The message id not exists.");
             return response;
         }
 
-        message.Reply = message.Reply?.Where(x => x.Id != replyId.ToObjectId()).ToList();
+        message.Reply = message.Reply?.Where(x => x.Id != replyId.ToGuid()).ToList();
 
         await _messages.UpdateAsync(message);
 

@@ -1,18 +1,17 @@
-﻿using Meowv.Blog.Application.Dto;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Domain.Users;
 using Meowv.Blog.Domain.Users.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Domain.Repositories;
-using Volo.Abp.ObjectMapping;
 using Volo.Abp.Security.Claims;
 
 namespace Meowv.Blog.Application.Users.Services;
@@ -71,14 +70,14 @@ public class UserAppService : ServiceBase, IUserAppService
     {
         var response = new BlogResponse();
 
-        var message = await _userRepository.FindAsync(id.ToObjectId());
+        var message = await _userRepository.FindAsync(id.ToGuid());
         if (message is null)
         {
             response.IsFailed("The user id not exists.");
             return response;
         }
 
-        await _userRepository.DeleteAsync(id.ToObjectId());
+        await _userRepository.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -94,7 +93,7 @@ public class UserAppService : ServiceBase, IUserAppService
     {
         var response = new BlogResponse();
 
-        var user = await _userRepository.FindAsync(id.ToObjectId());
+        var user = await _userRepository.FindAsync(id.ToGuid());
         if (user is null)
         {
             response.IsFailed("The user id is not exists.");
@@ -121,7 +120,7 @@ public class UserAppService : ServiceBase, IUserAppService
     {
         var response = new BlogResponse();
 
-        var user = await _userRepository.FindAsync(id.ToObjectId());
+        var user = await _userRepository.FindAsync(id.ToGuid());
         if (user is null)
         {
             response.IsFailed("The user id is not exists.");
@@ -146,7 +145,7 @@ public class UserAppService : ServiceBase, IUserAppService
     {
         var response = new BlogResponse();
 
-        var user = await _userRepository.FindAsync(id.ToObjectId());
+        var user = await _userRepository.FindAsync(id.ToGuid());
         if (user is null)
         {
             response.IsFailed("The user id is not exists.");
@@ -185,7 +184,7 @@ public class UserAppService : ServiceBase, IUserAppService
     {
         var response = new BlogResponse<UserDto>();
 
-        var user = await _userRepository.FindAsync(id.ToObjectId());
+        var user = await _userRepository.FindAsync(id.ToGuid());
         if (user is null)
         {
             response.IsFailed("The user id is not exists.");
@@ -247,10 +246,11 @@ public class UserAppService : ServiceBase, IUserAppService
     [RemoteService(false)]
     public async Task<UserDto> VerifyByAccountAsync(string username, string password)
     {
-        var user = await _userRepository.FindAsync(x => x.Username == username && x.Password == password.ToMd5() && x.IsAdmin);
+        var user = await _userRepository.FindAsync(x =>
+            x.Username == username && x.Password == password.ToMd5() && x.IsAdmin);
         if (user is null) throw new ArgumentException("The username or password entered is incorrect.");
 
-        return ObjectMapper.Map<User, UserDto>(user); 
+        return ObjectMapper.Map<User, UserDto>(user);
     }
 
     [AllowAnonymous]

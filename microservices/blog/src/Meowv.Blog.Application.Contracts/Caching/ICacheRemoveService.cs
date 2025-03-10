@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Meowv.Blog.Caching;
+﻿namespace Meowv.Blog.Caching;
 
 public interface ICacheRemoveService
 {

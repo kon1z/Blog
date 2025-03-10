@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volo.Abp.Domain.Entities;
 
 namespace Meowv.Blog.Domain.Blog;
 
-public class Post : EntityBase
+public class Post : Entity<Guid>
 {
     /// <summary>
     ///     标题

@@ -10,12 +10,14 @@ public interface IBlogCacheAppService : ICacheRemoveService
     /// <param name="func"></param>
     /// <returns></returns>
     Task<BlogResponse<List<GetCategoryDto>>> GetCategoriesAsync(Func<Task<BlogResponse<List<GetCategoryDto>>>> func);
+
     /// <summary>
     ///     Get the list of friendlinks from the cache.
     /// </summary>
     /// <param name="func"></param>
     /// <returns></returns>
     Task<BlogResponse<List<FriendLinkDto>>> GetFriendLinksAsync(Func<Task<BlogResponse<List<FriendLinkDto>>>> func);
+
     /// <summary>
     ///     Get post by url from the cache.
     /// </summary>
@@ -51,6 +53,7 @@ public interface IBlogCacheAppService : ICacheRemoveService
     /// <returns></returns>
     Task<BlogResponse<List<GetPostDto>>>
         GetPostsByTagAsync(string tag, Func<Task<BlogResponse<List<GetPostDto>>>> func);
+
     /// <summary>
     ///     Get the list of tags from the cache.
     /// </summary>

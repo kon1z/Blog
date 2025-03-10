@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Volo.Abp.Domain.Entities;
 
 namespace Meowv.Blog.Domain.Signatures;
 
-public class Signature : EntityBase
+public class Signature : Entity<Guid>
 {
     public string Name { get; set; }
 

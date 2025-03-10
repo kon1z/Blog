@@ -52,7 +52,7 @@ public class HotAppService : ServiceBase, IHotAppService
         {
             var response = new BlogResponse<HotDto>();
 
-            var hot = await _hots.GetAsync(id.ToObjectId());
+            var hot = await _hots.GetAsync(id.ToGuid());
             if (hot is null)
             {
                 response.IsFailed("The hot id not exists.");

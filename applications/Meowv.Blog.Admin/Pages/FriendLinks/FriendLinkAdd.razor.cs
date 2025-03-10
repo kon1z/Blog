@@ -1,13 +1,13 @@
-﻿using Meowv.Blog.Application.Dto;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 
 namespace Meowv.Blog.Admin.Pages.FriendLinks;
 
 public partial class FriendLinkAdd
 {
-    private CreateFriendLinkInput input = new CreateFriendLinkInput();
+    private readonly CreateFriendLinkInput input = new();
 
     public async Task HandleSubmit()
     {

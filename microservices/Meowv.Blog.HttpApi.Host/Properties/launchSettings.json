@@ -1,20 +1,14 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
-    "Meowv.Blog.Api": {
+    "Meowv.Blog.HttpApi.Host": {
       "applicationUrl": "https://localhost:44380",
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "launchBrowser": true
-    },
-    "Docker": {
-      "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "publishAllPorts": true,
-      "useSSL": true
+      "launchUrl": "swagger/index.html"
     }
   }
 }

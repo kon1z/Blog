@@ -1,4 +1,4 @@
-﻿namespace Meowv.Blog.Application.Dto;
+﻿namespace Meowv.Blog.Domain.ValueObjects;
 
 public class Data
 {

@@ -8,9 +8,8 @@ namespace Meowv.Blog.Admin.Pages.FriendLinks;
 
 public partial class FriendLinkList
 {
+    private readonly UpdateFriendLinkInput input = new();
     private string friendlinkId;
-
-    private UpdateFriendLinkInput input = new UpdateFriendLinkInput();
     private List<GetAdminFriendLinkDto> links;
 
     private bool visible;

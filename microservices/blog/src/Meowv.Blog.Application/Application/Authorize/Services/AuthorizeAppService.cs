@@ -1,121 +1,32 @@
-﻿using Meowv.Blog.Application.Dto;
-using Meowv.Blog.Application.IServices;
-using Meowv.Blog.Application.OAuth;
-using Meowv.Blog.Application.OAuth.Services;
-using Meowv.Blog.Caching;
-using Meowv.Blog.Domain.Users;
-using Meowv.Blog.Extensions;
-using Meowv.Blog.Options;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
+using Meowv.Blog.Application.IServices;
+using Meowv.Blog.Caching;
+using Meowv.Blog.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Meowv.Blog.Application.Authorize.Services;
 
 public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
 {
-    private readonly IoAuthAppAlipayService _appAlipayService;
     private readonly IAuthorizeCacheAppService _authorizeCacheAppService;
-    private readonly IoAuthAppDingtalkService _appDingtalkService;
-    private readonly IoAuthAppGiteeService _appGiteeService;
-    private readonly IoAuthAppGithubService _appGithubService;
-    private readonly JwtOptions _jwtOption;
-    private readonly IoAuthAppMicrosoftService _appMicrosoftService;
-    private readonly IoAuthAppQqService _appQqService;
+    private readonly JwtOptions _jwtOptions;
     private readonly IUserAppService _userAppService;
-    private readonly IoAuthAppWeiboService _appWeiboService;
 
-    public AuthorizeAppService(IOptions<JwtOptions> jwtOption,
+    public AuthorizeAppService(
+        IOptions<JwtOptions> jwtOptions,
         IAuthorizeCacheAppService authorizeCacheAppService,
-        IUserAppService userAppService,
-        IoAuthAppGithubService appGithubService,
-        IoAuthAppGiteeService appGiteeService,
-        IoAuthAppAlipayService appAlipayService,
-        IoAuthAppDingtalkService appDingtalkService,
-        IoAuthAppMicrosoftService appMicrosoftService,
-        IoAuthAppWeiboService appWeiboService,
-        IoAuthAppQqService appQqService)
+        IUserAppService userAppService)
     {
-        _jwtOption = jwtOption.Value;
+        _jwtOptions = jwtOptions.Value;
         _authorizeCacheAppService = authorizeCacheAppService;
         _userAppService = userAppService;
-        _appGithubService = appGithubService;
-        _appGiteeService = appGiteeService;
-        _appAlipayService = appAlipayService;
-        _appDingtalkService = appDingtalkService;
-        _appMicrosoftService = appMicrosoftService;
-        _appWeiboService = appWeiboService;
-        _appQqService = appQqService;
-    }
-
-    /// <summary>
-    ///     Get authorize url.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    [Route("api/meowv/oauth/{type}")]
-    public async Task<BlogResponse<string>> GetAuthorizeUrlAsync(string type)
-    {
-        var state = StateManager.Instance.Get();
-
-        var response = new BlogResponse<string>
-        {
-            Result = type switch
-            {
-                "github" => await _appGithubService.GetAuthorizeUrl(state),
-                "gitee" => await _appGiteeService.GetAuthorizeUrl(state),
-                "alipay" => await _appAlipayService.GetAuthorizeUrl(state),
-                "dingtalk" => await _appDingtalkService.GetAuthorizeUrl(state),
-                "microsoft" => await _appMicrosoftService.GetAuthorizeUrl(state),
-                "weibo" => await _appWeiboService.GetAuthorizeUrl(state),
-                "qq" => await _appQqService.GetAuthorizeUrl(state),
-                _ => throw new NotImplementedException($"Not implemented:{type}")
-            }
-        };
-
-        return response;
-    }
-
-    /// <summary>
-    ///     Generate token by <paramref name="type" />.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <param name="code"></param>
-    /// <param name="state"></param>
-    /// <returns></returns>
-    [HttpGet]
-    [Route("api/meowv/oauth/{type}/token")]
-    public async Task<BlogResponse<string>> GenerateTokenAsync(string type, string code, string state)
-    {
-        var response = new BlogResponse<string>();
-
-        if (!StateManager.IsExist(state))
-        {
-            response.IsFailed("Request failed.");
-            return response;
-        }
-
-        StateManager.Remove(state);
-
-        var token = type switch
-        {
-            "github" => GenerateToken(await _appGithubService.GetUserByOAuthAsync(type, code, state)),
-            "gitee" => GenerateToken(await _appGiteeService.GetUserByOAuthAsync(type, code, state)),
-            "alipay" => GenerateToken(await _appAlipayService.GetUserByOAuthAsync(type, code, state)),
-            "dingtalk" => GenerateToken(await _appDingtalkService.GetUserByOAuthAsync(type, code, state)),
-            "microsoft" => GenerateToken(await _appMicrosoftService.GetUserByOAuthAsync(type, code, state)),
-            "weibo" => GenerateToken(await _appWeiboService.GetUserByOAuthAsync(type, code, state)),
-            "qq" => GenerateToken(await _appQqService.GetUserByOAuthAsync(type, code, state)),
-            _ => throw new NotImplementedException($"Not implemented:{type}")
-        };
-
-        response.IsSuccess(token);
-        return response;
     }
 
     /// <summary>
@@ -192,18 +103,18 @@ public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
             new Claim(ClaimTypes.Email, user.Email),
             new Claim("avatar", user.Avatar),
             new Claim(JwtRegisteredClaimNames.Exp,
-                $"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtOption.Expires)).ToUnixTimeSeconds()}"),
+                $"{new DateTimeOffset(DateTime.Now.AddMinutes(_jwtOptions.Expires)).ToUnixTimeSeconds()}"),
             new Claim(JwtRegisteredClaimNames.Nbf, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}")
         };
 
-        var key = new SymmetricSecurityKey(_jwtOption.SigningKey.GetBytes());
+        var key = new SymmetricSecurityKey(_jwtOptions.SigningKey.GetBytes());
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var securityToken = new JwtSecurityToken(
-            _jwtOption.Issuer,
-            _jwtOption.Audience,
+            _jwtOptions.Issuer,
+            _jwtOptions.Audience,
             claims,
-            expires: DateTime.Now.AddMinutes(_jwtOption.Expires),
+            expires: DateTime.Now.AddMinutes(_jwtOptions.Expires),
             signingCredentials: creds);
 
         var token = new JwtSecurityTokenHandler().WriteToken(securityToken);

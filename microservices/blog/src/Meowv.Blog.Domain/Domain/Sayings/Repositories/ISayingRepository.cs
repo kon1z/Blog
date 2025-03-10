@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Sayings.Repositories;
 
-public interface ISayingRepository : IRepository<Saying, ObjectId>
+public interface ISayingRepository : IRepository<Saying, Guid>
 {
     /// <summary>
     ///     Get sayings list by paging.

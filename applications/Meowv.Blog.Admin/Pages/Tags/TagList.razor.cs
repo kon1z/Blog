@@ -8,7 +8,7 @@ namespace Meowv.Blog.Admin.Pages.Tags;
 
 public partial class TagList
 {
-    private UpdateTagInput input = new UpdateTagInput();
+    private readonly UpdateTagInput input = new();
 
     private string tagId;
     private List<GetAdminTagDto> tags;

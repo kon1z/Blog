@@ -20,10 +20,10 @@ public partial class MessageList
 
     private readonly Toolbar Toolbar = new();
 
-    public CreateMessageInput MessageModel = new CreateMessageInput();
+    public CreateMessageInput MessageModel = new();
     private IReadOnlyList<MessageDto> messages = new List<MessageDto>();
 
-    public ReplyMessageInput ReplyMessageModel = new ReplyMessageInput();
+    public ReplyMessageInput ReplyMessageModel = new();
     private int total;
 
     private bool visible;

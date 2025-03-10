@@ -13,13 +13,12 @@ namespace Meowv.Blog.Admin.Pages.Posts;
 
 public partial class PostEdit
 {
+    private readonly UpdatePostInput input = new();
     private readonly Toolbar toolbar = new();
 
     private string _inputValue, _selectedValue;
 
     private List<GetAdminCategoryDto> categories = new();
-
-    private UpdatePostInput input = new UpdatePostInput();
 
     private DateTime? pubTime = DateTime.Now;
 

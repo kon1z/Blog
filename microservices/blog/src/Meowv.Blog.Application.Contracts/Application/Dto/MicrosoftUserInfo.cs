@@ -10,5 +10,6 @@ public class MicrosoftUserInfo
 
     public string Avatar { get; set; } = "";
 
-    [JsonPropertyName("userPrincipalName")] public string Email { get; set; }
+    [JsonPropertyName("userPrincipalName")]
+    public string Email { get; set; }
 }

@@ -10,10 +10,9 @@ using HtmlAgilityPack;
 using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Domain.Hots;
 using Meowv.Blog.Domain.Hots.Repositories;
+using Meowv.Blog.Domain.ValueObjects;
 using Meowv.Blog.EventData.Hots;
-using Meowv.Blog.Options;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using Quartz;
 using Volo.Abp.BackgroundWorkers.Quartz;
@@ -27,8 +26,7 @@ public class HotWorker : QuartzBackgroundWorkerBase
     private readonly IHttpClientFactory _httpClient;
     private readonly ILocalEventBus _localEventBus;
 
-    public HotWorker(IOptions<WorkerOptions> backgroundWorkerOptions,
-        IHotRepository hots,
+    public HotWorker(IHotRepository hots,
         IHttpClientFactory httpClient,
         ILocalEventBus localEventBus)
     {
@@ -40,7 +38,6 @@ public class HotWorker : QuartzBackgroundWorkerBase
 
         Trigger = TriggerBuilder.Create()
             .WithIdentity(nameof(HotWorker))
-            .WithCronSchedule(backgroundWorkerOptions.Value.Cron)
             .Build();
 
         ScheduleJob = async scheduler =>

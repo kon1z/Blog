@@ -13,6 +13,13 @@ namespace Meowv.Blog.Application.Sayings.Services;
 
 public class SayingAppService : ServiceBase, ISayingAppService
 {
+    private readonly ISayingRepository _sayings;
+
+    public SayingAppService(ISayingRepository sayings)
+    {
+        _sayings = sayings;
+    }
+
     /// <summary>
     ///     Create sayings.
     /// </summary>
@@ -45,14 +52,14 @@ public class SayingAppService : ServiceBase, ISayingAppService
     {
         var response = new BlogResponse();
 
-        var saying = await _sayings.FindAsync(id.ToObjectId());
+        var saying = await _sayings.FindAsync(id.ToGuid());
         if (saying is null)
         {
             response.IsFailed("The saying id not exists.");
             return response;
         }
 
-        await _sayings.DeleteAsync(id.ToObjectId());
+        await _sayings.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -75,13 +82,6 @@ public class SayingAppService : ServiceBase, ISayingAppService
 
         response.Result = new PagedList<SayingDto>(total, sayings);
         return response;
-    }
-
-    private readonly ISayingRepository _sayings;
-
-    public SayingAppService(ISayingRepository sayings)
-    {
-        _sayings = sayings;
     }
 
     /// <summary>

@@ -49,6 +49,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.BackgroundWorkers", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.DbMigrator", "shared\Meowv.DbMigrator\Meowv.DbMigrator.csproj", "{0805E02B-7E22-3068-7076-0653A471D79B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.Shared.AspnetCore", "shared\Meowv.Shared.AspnetCore\Meowv.Shared.AspnetCore.csproj", "{A219DA6E-8D85-22E8-F873-8E0EFDBE6378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.Shared.Microservices", "shared\Meowv.Shared.Microservices\Meowv.Shared.Microservices.csproj", "{D0885612-4FB8-4781-AC80-50003EE9282D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateways", "gateways", "{83300FC9-F892-478F-B269-0B128CE5571F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.Gateway.Internal", "gateways\Meowv.Gateway.Internal\Meowv.Gateway.Internal.csproj", "{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meowv.Gateway.Public", "gateways\Meowv.Gateway.Public\Meowv.Gateway.Public.csproj", "{2FBB53D2-855C-4847-AB52-3AAB853F44B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -123,6 +133,22 @@ Global
 		{0805E02B-7E22-3068-7076-0653A471D79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0805E02B-7E22-3068-7076-0653A471D79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0805E02B-7E22-3068-7076-0653A471D79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A219DA6E-8D85-22E8-F873-8E0EFDBE6378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A219DA6E-8D85-22E8-F873-8E0EFDBE6378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A219DA6E-8D85-22E8-F873-8E0EFDBE6378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A219DA6E-8D85-22E8-F873-8E0EFDBE6378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0885612-4FB8-4781-AC80-50003EE9282D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0885612-4FB8-4781-AC80-50003EE9282D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0885612-4FB8-4781-AC80-50003EE9282D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0885612-4FB8-4781-AC80-50003EE9282D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBB53D2-855C-4847-AB52-3AAB853F44B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBB53D2-855C-4847-AB52-3AAB853F44B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBB53D2-855C-4847-AB52-3AAB853F44B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBB53D2-855C-4847-AB52-3AAB853F44B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +174,10 @@ Global
 		{89BAF5B8-C1EC-E72B-5983-102D68FF85DF} = {82D15529-41BA-48E8-B30C-F745A8939F3B}
 		{A9A30565-1950-D525-43E9-32EEE359B677} = {51CA1C85-DC71-4DA8-99D4-CB88AFE973BD}
 		{0805E02B-7E22-3068-7076-0653A471D79B} = {51CA1C85-DC71-4DA8-99D4-CB88AFE973BD}
+		{A219DA6E-8D85-22E8-F873-8E0EFDBE6378} = {51CA1C85-DC71-4DA8-99D4-CB88AFE973BD}
+		{D0885612-4FB8-4781-AC80-50003EE9282D} = {51CA1C85-DC71-4DA8-99D4-CB88AFE973BD}
+		{27B9BB2A-95EA-4CC0-A8D7-0345E5F074AD} = {83300FC9-F892-478F-B269-0B128CE5571F}
+		{2FBB53D2-855C-4847-AB52-3AAB853F44B0} = {83300FC9-F892-478F-B269-0B128CE5571F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {783C9F1B-396B-491B-94ED-0D7A0BBA2543}

@@ -12,12 +12,4 @@ namespace Meowv.Blog;
 )]
 public class MeowvBlogApplicationModule : AbpModule
 {
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-        Configure<AbpAutoMapperOptions>(options =>
-        {
-            options.AddMaps<MeowvBlogApplicationModule>();
-            options.AddProfile<MeowvBlogApplicationAutoMapperProfile>();
-        });
-    }
 }

@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Blog.Repositories;
 
-public interface ITagRepository : IRepository<Tag, ObjectId>
+public interface ITagRepository : IRepository<Tag, Guid>
 {
     /// <summary>
     ///     Get tag list by names

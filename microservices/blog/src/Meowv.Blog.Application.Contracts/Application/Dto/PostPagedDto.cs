@@ -4,8 +4,8 @@ public class PostPagedDto
 {
     public PostPagedDto()
     {
-        
     }
+
     public PostPagedDto(string title, string url)
     {
         Title = title;

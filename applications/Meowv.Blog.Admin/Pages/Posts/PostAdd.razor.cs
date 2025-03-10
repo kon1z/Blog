@@ -12,12 +12,12 @@ namespace Meowv.Blog.Admin.Pages.Posts;
 
 public partial class PostAdd
 {
+    private readonly CreatePostInput input = new();
     private readonly Toolbar toolbar = new();
 
     private string _inputValue, _selectedValue;
 
     private List<GetAdminCategoryDto> categories = new();
-    private CreatePostInput input = new CreatePostInput();
 
     private DateTime? pubTime = DateTime.Now;
 

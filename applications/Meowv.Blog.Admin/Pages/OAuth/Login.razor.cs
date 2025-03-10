@@ -10,7 +10,7 @@ namespace Meowv.Blog.Admin.Pages.OAuth;
 
 public partial class Login
 {
-    private readonly LoginInput model = new LoginInput();
+    private readonly LoginInput model = new();
 
     private bool loading;
 

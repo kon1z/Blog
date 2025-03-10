@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\microservices\blog\src\Meowv.Blog.HttpApi.Client\Meowv.Blog.HttpApi.Client.csproj" />
+    <ProjectReference Include="..\..\shared\Meowv.Shared.AspnetCore\Meowv.Shared.AspnetCore.csproj" />
   </ItemGroup>
   
 </Project>

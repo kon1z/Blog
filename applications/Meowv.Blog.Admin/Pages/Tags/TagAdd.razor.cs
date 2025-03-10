@@ -7,7 +7,7 @@ namespace Meowv.Blog.Admin.Pages.Tags;
 
 public partial class TagAdd
 {
-    private CreateTagInput input = new CreateTagInput();
+    private readonly CreateTagInput input = new();
 
     public async Task HandleSubmit()
     {

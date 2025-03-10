@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Meowv.Blog.Domain.Sayings;
 using Meowv.Blog.Domain.Sayings.Repositories;
-using Meowv.Blog.MongoDb;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;

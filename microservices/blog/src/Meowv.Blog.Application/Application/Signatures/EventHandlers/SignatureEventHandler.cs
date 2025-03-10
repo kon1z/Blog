@@ -1,9 +1,5 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Meowv.Blog.Domain.Signatures;
-using Meowv.Blog.Extensions;
-using Meowv.Blog.Options;
-using Microsoft.Extensions.Options;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;
@@ -14,29 +10,13 @@ public class SignatureEventHandler : ILocalEventHandler<EntityCreatedEventData<S
     ILocalEventHandler<EntityDeletedEventData<Signature>>,
     ITransientDependency
 {
-    private readonly SignatureOptions _signatureOptions;
-
-    public SignatureEventHandler(IOptions<SignatureOptions> signatureOptions)
+    public Task HandleEventAsync(EntityCreatedEventData<Signature> eventData)
     {
-        _signatureOptions = signatureOptions.Value;
+        return Task.CompletedTask;
     }
 
-
-    public async Task HandleEventAsync(EntityCreatedEventData<Signature> eventData)
+    public Task HandleEventAsync(EntityDeletedEventData<Signature> eventData)
     {
-        var path = Path.Combine(_signatureOptions.Path, eventData.Entity.Url);
-
-        if (File.Exists(path)) await path.AddWatermarkAndSaveItAsync();
-
-        await Task.CompletedTask;
-    }
-
-    public async Task HandleEventAsync(EntityDeletedEventData<Signature> eventData)
-    {
-        var path = Path.Combine(_signatureOptions.Path, eventData.Entity.Url);
-
-        if (File.Exists(path)) File.Delete(path);
-
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 }

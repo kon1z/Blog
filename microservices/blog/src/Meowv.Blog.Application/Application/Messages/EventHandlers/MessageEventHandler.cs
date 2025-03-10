@@ -1,5 +1,5 @@
-﻿using Meowv.Blog.Domain.Messages;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Meowv.Blog.Domain.Messages;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events;
 using Volo.Abp.EventBus;

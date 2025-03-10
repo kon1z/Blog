@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <RootNamespace>Meowv</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\Meowv\en.json" />
+    <EmbeddedResource Include="Localization\Meowv\zh-Hans.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+
+  </ItemGroup>
+
+
+
+</Project>

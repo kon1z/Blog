@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace Meowv.Blog.Caching.Authorize;
 

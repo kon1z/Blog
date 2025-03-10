@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+﻿using System;
 using MongoDB.Driver;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.MongoDB;
@@ -25,8 +25,8 @@ public class MongoDbRepositoryBase<TEntity, TKey> : MongoDbRepositoryBase<MeowvB
     }
 }
 
-public class MongoDbRepositoryBase<TEntity> : MongoDbRepositoryBase<TEntity, ObjectId>
-    where TEntity : class, IEntity<ObjectId>
+public class MongoDbRepositoryBase<TEntity> : MongoDbRepositoryBase<TEntity, Guid>
+    where TEntity : class, IEntity<Guid>
 {
     public MongoDbRepositoryBase(IMongoDbContextProvider<MeowvBlogMongoDbContext> dbContextProvider) : base(
         dbContextProvider)

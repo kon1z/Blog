@@ -11,7 +11,7 @@ using Tag = Meowv.Blog.Domain.Blog.Tag;
 
 namespace Meowv.Blog.MongoDb;
 
-[ConnectionStringName("")]
+[ConnectionStringName("Default")]
 public class MeowvBlogMongoDbContext : AbpMongoDbContext
 {
     public IMongoCollection<Post> Posts => Collection<Post>();

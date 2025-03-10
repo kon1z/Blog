@@ -1,8 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using System;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Blog.Repositories;
 
-public interface ICategoryRepository : IRepository<Category, ObjectId>
+public interface ICategoryRepository : IRepository<Category, Guid>
 {
 }

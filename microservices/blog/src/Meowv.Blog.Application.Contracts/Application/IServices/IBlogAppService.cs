@@ -49,5 +49,4 @@ public interface IBlogAppService
     Task<BlogResponse> UpdateFriendLinkAsync(string id, UpdateFriendLinkInput input);
 
     Task<BlogResponse<List<GetAdminFriendLinkDto>>> GetAdminFriendLinksAsync();
-
 }

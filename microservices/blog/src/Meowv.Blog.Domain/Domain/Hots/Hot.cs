@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Meowv.Blog.Application.Dto;
+using Meowv.Blog.Domain.ValueObjects;
+using Volo.Abp.Domain.Entities;
 
 namespace Meowv.Blog.Domain.Hots;
 
-public class Hot : EntityBase
+public class Hot : Entity<Guid>
 {
     /// <summary>
     ///     <see cref="KnownSources" />

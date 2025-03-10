@@ -1,4 +1,6 @@
-﻿namespace Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Domain.ValueObjects;
+
+namespace Meowv.Blog.Application.Dto;
 
 public class HotDto
 {

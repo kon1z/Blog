@@ -1,13 +1,12 @@
 ﻿using System;
-using MongoDB.Bson;
+using Volo.Abp.Domain.Entities;
 
 namespace Meowv.Blog.Domain.Messages;
 
-public class MessageReply : EntityBase
+public class MessageReply : Entity<Guid> 
 {
     public MessageReply()
     {
-        Id = ObjectId.GenerateNewId();
         CreatedAt = DateTime.Now;
     }
 

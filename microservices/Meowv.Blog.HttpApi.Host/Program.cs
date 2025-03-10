@@ -1,55 +1,38 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Serilog;
-using Serilog.Events;
 using System;
 using System.Threading.Tasks;
+using Meowv.Helpers;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace Meowv.Blog.HttpApi.Host;
+
 public class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-#if DEBUG
-            .MinimumLevel.Debug()
-#else
-            .MinimumLevel.Information()
-#endif
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
-            .Enrich.FromLogContext()
-            .WriteTo.Async(c => c.File("Logs/logs.txt"))
-            .WriteTo.Async(c => c.Console())
-            .CreateLogger();
+        var assemblyName = typeof(Program).Assembly.GetName().Name!;
+        SerilogConfigurationHelper.Configure(assemblyName);
 
         try
         {
-            Log.Information("Starting MyCompanyName.MyProjectName.HttpApi.Host.");
-            var builder = WebApplication.CreateBuilder(args);
-            builder.Host.AddAppSettingsSecretsJson()
-                .UseAutofac()
-                .UseSerilog();
-            await builder.AddApplicationAsync<MeowvBlogHttpApiHostModule>();
-            var app = builder.Build();
+            Log.Information($"Starting {assemblyName}");
+            var app = await ApplicationBuilderHelper.BuildApplicationAsync<MeowvBlogHttpApiHostModule>(args);
             await app.InitializeApplicationAsync();
             await app.RunAsync();
+
             return 0;
         }
         catch (Exception ex)
         {
-            if (ex is HostAbortedException)
-            {
-                throw;
-            }
+            if (ex is HostAbortedException) throw;
 
-            Log.Fatal(ex, "Host terminated unexpectedly!");
+            Log.Fatal(ex, $"{assemblyName} terminated unexpectedly!");
             return 1;
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }

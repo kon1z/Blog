@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Blog.Repositories;
 
-public interface IPostRepository : IRepository<Post, ObjectId>
+public interface IPostRepository : IRepository<Post, Guid>
 {
     /// <summary>
     ///     Get post list by paging.
@@ -35,12 +34,12 @@ public interface IPostRepository : IRepository<Post, ObjectId>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<int> GetCountByCategoryAsync(ObjectId id);
+    Task<int> GetCountByCategoryAsync(Guid id);
 
     /// <summary>
     ///     Get post count by tag id
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<int> GetCountByTagAsync(ObjectId id);
+    Task<int> GetCountByTagAsync(Guid id);
 }

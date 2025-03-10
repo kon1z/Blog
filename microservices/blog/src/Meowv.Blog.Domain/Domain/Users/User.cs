@@ -1,8 +1,9 @@
 ﻿using System;
+using Volo.Abp.Domain.Entities;
 
 namespace Meowv.Blog.Domain.Users;
 
-public class User : EntityBase
+public class User : Entity<Guid>
 {
     public string Username { get; set; }
 

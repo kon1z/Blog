@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Meowv.Blog.Domain.Blog;
 using Meowv.Blog.Domain.Blog.Repositories;
-using Meowv.Blog.MongoDb;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Volo.Abp.MongoDB;
@@ -76,7 +75,7 @@ public class PostRepository : MongoDbRepositoryBase<Post>, IPostRepository
         return await Collection.Find(filter).Sort(sort).Project<Post>(projection).ToListAsync();
     }
 
-    public async Task<int> GetCountByCategoryAsync(ObjectId id)
+    public async Task<int> GetCountByCategoryAsync(Guid id)
     {
         var filter = new BsonDocument
         {
@@ -86,7 +85,7 @@ public class PostRepository : MongoDbRepositoryBase<Post>, IPostRepository
         return (int)await Collection.CountDocumentsAsync(filter);
     }
 
-    public async Task<int> GetCountByTagAsync(ObjectId id)
+    public async Task<int> GetCountByTagAsync(Guid id)
     {
         var filter = new BsonDocument
         {

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Signatures.Repositories;
 
-public interface ISignatureRepository : IRepository<Signature, ObjectId>
+public interface ISignatureRepository : IRepository<Signature, Guid>
 {
     /// <summary>
     ///     Get the list of signatures by paging.

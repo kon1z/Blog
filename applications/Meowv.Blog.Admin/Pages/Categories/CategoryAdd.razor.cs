@@ -7,7 +7,7 @@ namespace Meowv.Blog.Admin.Pages.Categories;
 
 public partial class CategoryAdd
 {
-    private CreateCategoryInput input = new CreateCategoryInput();
+    private readonly CreateCategoryInput input = new();
 
     public async Task HandleSubmit()
     {

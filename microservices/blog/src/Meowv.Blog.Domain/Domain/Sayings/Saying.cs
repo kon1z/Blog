@@ -1,6 +1,9 @@
-﻿namespace Meowv.Blog.Domain.Sayings;
+﻿using System;
+using Volo.Abp.Domain.Entities;
 
-public class Saying : EntityBase
+namespace Meowv.Blog.Domain.Sayings;
+
+public class Saying : Entity<Guid>
 {
     public string Content { get; set; }
 }

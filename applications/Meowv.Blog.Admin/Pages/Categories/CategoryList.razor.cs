@@ -8,11 +8,10 @@ namespace Meowv.Blog.Admin.Pages.Categories;
 
 public partial class CategoryList
 {
+    private readonly UpdateCategoryInput input = new();
     private List<GetAdminCategoryDto> categories;
 
     private string categoryId;
-
-    private UpdateCategoryInput input = new UpdateCategoryInput();
 
     private bool visible;
 

@@ -2,7 +2,7 @@
 
 namespace Meowv.Blog.Application.IServices;
 
-public partial interface ISayingAppService
+public interface ISayingAppService
 {
     Task<BlogResponse<string>> GetRandomAsync();
     Task<BlogResponse> CreateAsync(CreateInput input);

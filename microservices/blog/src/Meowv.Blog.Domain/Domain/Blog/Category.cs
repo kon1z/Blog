@@ -1,6 +1,9 @@
-﻿namespace Meowv.Blog.Domain.Blog;
+﻿using System;
+using Volo.Abp.Domain.Entities;
 
-public class Category : EntityBase
+namespace Meowv.Blog.Domain.Blog;
+
+public class Category : Entity<Guid>
 {
     /// <summary>
     ///     名称

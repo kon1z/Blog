@@ -1,4 +1,9 @@
-﻿using Meowv.Blog.Application.Dto;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Caching;
 using Meowv.Blog.Domain.Blog;
@@ -6,11 +11,6 @@ using Meowv.Blog.Domain.Blog.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Application.Blog.Services;
@@ -49,7 +49,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
         var categoryCount = await _categories.GetCountAsync();
         var tagCount = await _tags.GetCountAsync();
 
-        response.Result = new Tuple<int, int, int>(AbpObjectExtensions.To<int>(postCount), AbpObjectExtensions.To<int>(categoryCount), AbpObjectExtensions.To<int>(tagCount));
+        response.Result = new Tuple<int, int, int>(postCount.To<int>(), categoryCount.To<int>(), tagCount.To<int>());
         return response;
     }
 
@@ -160,17 +160,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
         });
     }
 
-    private List<GetPostDto> GetPostList(List<Post> posts)
-    {
-        return ObjectMapper.Map<List<Post>, List<PostBriefDto>>(posts)
-            .GroupBy(x => x.Year)
-            .Select(x => new GetPostDto
-            {
-                Year = x.Key,
-                Posts = x
-            }).ToList();
-    }
-
     /// <summary>
     ///     Create a tag.
     /// </summary>
@@ -209,14 +198,14 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var tag = await _tags.FindAsync(id.ToObjectId());
+        var tag = await _tags.FindAsync(id.ToGuid());
         if (tag is null)
         {
             response.IsFailed("The tag id not exists.");
             return response;
         }
 
-        await _tags.DeleteAsync(id.ToObjectId());
+        await _tags.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -233,7 +222,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var tag = await _tags.FindAsync(id.ToObjectId());
+        var tag = await _tags.FindAsync(id.ToGuid());
         if (tag is null)
         {
             response.IsFailed("The tag id not exists.");
@@ -261,7 +250,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
         var tags = await _tags.GetListAsync();
 
         var result = ObjectMapper.Map<List<Tag>, List<GetAdminTagDto>>(tags);
-        result.ForEach(x => { x.Total = _posts.GetCountByTagAsync(x.Id.ToObjectId()).Result; });
+        result.ForEach(x => { x.Total = _posts.GetCountByTagAsync(x.Id.ToGuid()).Result; });
 
         response.Result = result;
         return response;
@@ -292,7 +281,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
             Author = input.Author,
             Url = input.Url.GeneratePostUrl(input.CreatedAt.ToDateTime()),
             Markdown = input.Markdown,
-            Category = await _categories.GetAsync(input.CategoryId.ToObjectId()),
+            Category = await _categories.GetAsync(input.CategoryId.ToGuid()),
             Tags = await _tags.GetListAsync(input.Tags),
             CreatedAt = input.CreatedAt.ToDateTime()
         };
@@ -312,14 +301,14 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var post = await _posts.FindAsync(id.ToObjectId());
+        var post = await _posts.FindAsync(id.ToGuid());
         if (post is null)
         {
             response.IsFailed("The post id not exists.");
             return response;
         }
 
-        await _posts.DeleteAsync(id.ToObjectId());
+        await _posts.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -336,7 +325,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var post = await _posts.FindAsync(id.ToObjectId());
+        var post = await _posts.FindAsync(id.ToGuid());
         if (post is null)
         {
             response.IsFailed("The post id not exists.");
@@ -355,7 +344,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
         post.Author = input.Author;
         post.Url = input.Url.GeneratePostUrl(input.CreatedAt.ToDateTime());
         post.Markdown = input.Markdown;
-        post.Category = await _categories.GetAsync(input.CategoryId.ToObjectId());
+        post.Category = await _categories.GetAsync(input.CategoryId.ToGuid());
         post.Tags = await _tags.GetListAsync(input.Tags);
         post.CreatedAt = input.CreatedAt.ToDateTime();
         await _posts.UpdateAsync(post);
@@ -374,7 +363,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse<PostDto>();
 
-        var post = await _posts.FindAsync(id.ToObjectId());
+        var post = await _posts.FindAsync(id.ToGuid());
         if (post is null)
         {
             response.IsFailed("The post id not exists.");
@@ -447,14 +436,14 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var friendLink = await _friendLinks.FindAsync(id.ToObjectId());
+        var friendLink = await _friendLinks.FindAsync(id.ToGuid());
         if (friendLink is null)
         {
             response.IsFailed("The friendLink id not exists.");
             return response;
         }
 
-        await _friendLinks.DeleteAsync(id.ToObjectId());
+        await _friendLinks.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -471,7 +460,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var friendLink = await _friendLinks.FindAsync(id.ToObjectId());
+        var friendLink = await _friendLinks.FindAsync(id.ToGuid());
         if (friendLink is null)
         {
             response.IsFailed("The friendLink id not exists.");
@@ -542,14 +531,14 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var category = await _categories.FindAsync(id.ToObjectId());
+        var category = await _categories.FindAsync(id.ToGuid());
         if (category is null)
         {
             response.IsFailed("The category id not exists.");
             return response;
         }
 
-        await _categories.DeleteAsync(id.ToObjectId());
+        await _categories.DeleteAsync(id.ToGuid());
 
         return response;
     }
@@ -566,7 +555,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
     {
         var response = new BlogResponse();
 
-        var category = await _categories.FindAsync(id.ToObjectId());
+        var category = await _categories.FindAsync(id.ToGuid());
         if (category is null)
         {
             response.IsFailed("The category id not exists.");
@@ -594,7 +583,7 @@ public class BlogAppService : ServiceBase, IBlogAppService
         var categories = await _categories.GetListAsync();
 
         var result = ObjectMapper.Map<List<Category>, List<GetAdminCategoryDto>>(categories);
-        result.ForEach(x => { x.Total = _posts.GetCountByCategoryAsync(x.Id.ToObjectId()).Result; });
+        result.ForEach(x => { x.Total = _posts.GetCountByCategoryAsync(x.Id.ToGuid()).Result; });
 
         response.Result = result;
         return response;
@@ -668,5 +657,16 @@ public class BlogAppService : ServiceBase, IBlogAppService
             response.Result = result;
             return response;
         });
+    }
+
+    private List<GetPostDto> GetPostList(List<Post> posts)
+    {
+        return ObjectMapper.Map<List<Post>, List<PostBriefDto>>(posts)
+            .GroupBy(x => x.Year)
+            .Select(x => new GetPostDto
+            {
+                Year = x.Key,
+                Posts = x
+            }).ToList();
     }
 }

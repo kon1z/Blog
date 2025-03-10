@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Domain.Messages.Repositories;
 
-public interface IMessageRepository : IRepository<Message, ObjectId>
+public interface IMessageRepository : IRepository<Message, Guid>
 {
     /// <summary>
     ///     Get the list of messages by paging.

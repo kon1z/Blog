@@ -9,11 +9,10 @@ namespace Meowv.Blog.Admin.Pages.Users;
 
 public partial class UserList
 {
+    private readonly UpdateUserinput input = new();
     private readonly Model model = new();
 
     private int drawerWidth = 500;
-
-    private UpdateUserinput input = new UpdateUserinput();
 
     private string userId;
     private List<UserDto> users;

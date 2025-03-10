@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using MongoDB.Bson;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -12,6 +8,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace Meowv.Blog.Extensions;
 
@@ -39,13 +36,13 @@ public static class Extensions
     }
 
     /// <summary>
-    ///     String to <see cref="ObjectId" />
+    ///     String to <see cref="Guid" />
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public static ObjectId ToObjectId(this string id)
+    public static Guid ToGuid(this string id)
     {
-        return new ObjectId(id);
+        return new Guid(id);
     }
 
     /// <summary>
