@@ -1,12 +1,13 @@
 ﻿using Meowv.Blog.Application.Dto;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.IServices;
 
-public interface IAuthorizeAppService
+public interface IAuthorizeAppService : IApplicationService
 {
-    Task<BlogResponse<string>> GenerateTokenAsync(string code);
+    Task<BlogResponse<string>> GenerateTokenByCodeAsync(string code);
 
-    Task<BlogResponse<string>> GenerateTokenAsync(IUserAppService userAppService, AccountInput input);
+    Task<BlogResponse<string>> GenerateTokenAsync(AccountInput input);
 
     Task<BlogResponse> SendAuthorizeCodeAsync();
 }

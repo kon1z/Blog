@@ -2,6 +2,6 @@
 
 namespace Meowv.Blog;
 
-public class ServiceBase : ApplicationService
+public abstract class MeowvBlogAppService : ApplicationService
 {
 }

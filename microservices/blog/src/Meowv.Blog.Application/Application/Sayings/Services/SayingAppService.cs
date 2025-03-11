@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Domain.Sayings;
 using Meowv.Blog.Domain.Sayings.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Meowv.Blog.Application.Sayings.Services;
 
-public class SayingAppService : ServiceBase, ISayingAppService
+public class SayingAppService : MeowvBlogAppService, ISayingAppService
 {
     private readonly ISayingRepository _sayings;
 
@@ -26,7 +25,6 @@ public class SayingAppService : ServiceBase, ISayingAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/saying")]
     public async Task<BlogResponse> CreateAsync(CreateInput input)
     {
         var response = new BlogResponse();
@@ -47,7 +45,6 @@ public class SayingAppService : ServiceBase, ISayingAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/saying/{id}")]
     public async Task<BlogResponse> DeleteAsync(string id)
     {
         var response = new BlogResponse();
@@ -71,7 +68,6 @@ public class SayingAppService : ServiceBase, ISayingAppService
     /// <param name="limit"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/sayings/{page}/{limit}")]
     public async Task<BlogResponse<PagedList<SayingDto>>> GetSayingsAsync(int page, int limit)
     {
         var response = new BlogResponse<PagedList<SayingDto>>();
@@ -88,7 +84,6 @@ public class SayingAppService : ServiceBase, ISayingAppService
     ///     Get a saying.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/saying/random")]
     public async Task<BlogResponse<string>> GetRandomAsync()
     {
         var response = new BlogResponse<string>();

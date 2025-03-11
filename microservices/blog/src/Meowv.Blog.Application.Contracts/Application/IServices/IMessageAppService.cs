@@ -1,8 +1,9 @@
 ﻿using Meowv.Blog.Application.Dto;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.IServices;
 
-public interface IMessageAppService
+public interface IMessageAppService : IApplicationService
 {
     Task<BlogResponse> CreateAsync(CreateMessageInput input);
 

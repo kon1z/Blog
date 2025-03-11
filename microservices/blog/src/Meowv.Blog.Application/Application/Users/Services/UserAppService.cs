@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Domain.Users;
 using Meowv.Blog.Domain.Users.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Volo.Abp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Security.Claims;
 
 namespace Meowv.Blog.Application.Users.Services;
 
 [Authorize]
-public class UserAppService : ServiceBase, IUserAppService
+public class UserAppService : MeowvBlogAppService, IUserAppService
 {
     private readonly ICurrentPrincipalAccessor _principalAccessor;
     private readonly IUserRepository _userRepository;
@@ -33,7 +31,7 @@ public class UserAppService : ServiceBase, IUserAppService
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [Route("api/meowv/user")]
+    [AllowAnonymous]
     public async Task<BlogResponse> CreateUserAsync(CreateUserInput input)
     {
         var response = new BlogResponse();
@@ -65,7 +63,6 @@ public class UserAppService : ServiceBase, IUserAppService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("api/meowv/user/{id}")]
     public async Task<BlogResponse> DeleteUserAsync(string id)
     {
         var response = new BlogResponse();
@@ -88,7 +85,6 @@ public class UserAppService : ServiceBase, IUserAppService
     /// <param name="id"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    [Route("api/meowv/user/{id}")]
     public async Task<BlogResponse> UpdateUserAsync(string id, UpdateUserinput input)
     {
         var response = new BlogResponse();
@@ -115,7 +111,6 @@ public class UserAppService : ServiceBase, IUserAppService
     /// <param name="id"></param>
     /// <param name="password"></param>
     /// <returns></returns>
-    [Route("api/meowv/user/password/{id}/{password}")]
     public async Task<BlogResponse> UpdatePasswordAsync(string id, string password)
     {
         var response = new BlogResponse();
@@ -139,8 +134,6 @@ public class UserAppService : ServiceBase, IUserAppService
     /// <param name="id"></param>
     /// <param name="isAdmin"></param>
     /// <returns></returns>
-    [HttpPut]
-    [Route("api/meowv/user/{id}/{isAdmin}")]
     public async Task<BlogResponse> SettingAdminAsync(string id, bool isAdmin)
     {
         var response = new BlogResponse();
@@ -162,7 +155,6 @@ public class UserAppService : ServiceBase, IUserAppService
     ///     Get the list of users.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/users")]
     public async Task<BlogResponse<List<UserDto>>> GetUsersAsync()
     {
         var response = new BlogResponse<List<UserDto>>();
@@ -179,7 +171,6 @@ public class UserAppService : ServiceBase, IUserAppService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("api/meowv/user/{id}")]
     public async Task<BlogResponse<UserDto>> GetUserAsync(string id)
     {
         var response = new BlogResponse<UserDto>();
@@ -201,7 +192,6 @@ public class UserAppService : ServiceBase, IUserAppService
     ///     Get current user.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/user")]
     public async Task<BlogResponse<UserDto>> GetCurrentUserAsync()
     {
         var response = new BlogResponse<UserDto>();
@@ -217,33 +207,6 @@ public class UserAppService : ServiceBase, IUserAppService
     }
 
     [AllowAnonymous]
-    [RemoteService(false)]
-    public async Task<UserDto> CreateUserAsync(string username, string type, string identity, string name,
-        string avatar,
-        string email)
-    {
-        var user = await _userRepository.FindAsync(x => x.Type == type && x.Identity == identity);
-        if (user is null)
-        {
-            await _userRepository.InsertAsync(new User
-            {
-                Username = username,
-                Password = "123456".ToMd5(),
-                Type = type,
-                Identity = identity,
-                Name = name,
-                Avatar = avatar,
-                Email = email
-            });
-
-            throw new ArgumentException("Unauthorized.");
-        }
-
-        return user.IsAdmin ? ObjectMapper.Map<User, UserDto>(user) : throw new ArgumentException("Unauthorized.");
-    }
-
-    [AllowAnonymous]
-    [RemoteService(false)]
     public async Task<UserDto> VerifyByAccountAsync(string username, string password)
     {
         var user = await _userRepository.FindAsync(x =>
@@ -254,7 +217,6 @@ public class UserAppService : ServiceBase, IUserAppService
     }
 
     [AllowAnonymous]
-    [RemoteService(false)]
     public async Task<UserDto> GetDefaultUserAsync()
     {
         var user = await _userRepository.FirstOrDefaultAsync(x => x.IsAdmin);

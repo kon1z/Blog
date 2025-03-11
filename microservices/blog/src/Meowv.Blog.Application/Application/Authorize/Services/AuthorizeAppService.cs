@@ -1,19 +1,19 @@
-﻿using System;
+﻿using Meowv.Blog.Application.Dto;
+using Meowv.Blog.Application.IServices;
+using Meowv.Blog.Caching;
+using Meowv.Blog.Extensions;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
-using Meowv.Blog.Application.IServices;
-using Meowv.Blog.Caching;
-using Meowv.Blog.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.Authorize.Services;
 
-public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
+public class AuthorizeAppService : ApplicationService, IAuthorizeAppService
 {
     private readonly IAuthorizeCacheAppService _authorizeCacheAppService;
     private readonly JwtOptions _jwtOptions;
@@ -34,8 +34,7 @@ public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    [Route("api/meowv/oauth/token")]
-    public async Task<BlogResponse<string>> GenerateTokenAsync([Required] string code)
+    public async Task<BlogResponse<string>> GenerateTokenByCodeAsync([Required] string code)
     {
         var response = new BlogResponse<string>();
 
@@ -56,16 +55,13 @@ public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
     /// <summary>
     ///     Generate token by account.
     /// </summary>
-    /// <param name="userAppService"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    [Route("api/meowv/oauth/account/token")]
-    public async Task<BlogResponse<string>> GenerateTokenAsync([FromServices] IUserAppService userAppService,
-        AccountInput input)
+    public async Task<BlogResponse<string>> GenerateTokenAsync(AccountInput input)
     {
         var response = new BlogResponse<string>();
 
-        var user = await userAppService.VerifyByAccountAsync(input.Username, input.Password);
+        var user = await _userAppService.VerifyByAccountAsync(input.Username, input.Password);
         var token = GenerateToken(user);
 
         response.IsSuccess(token);
@@ -76,7 +72,6 @@ public class AuthorizeAppService : ServiceBase, IAuthorizeAppService
     ///     Send authorization code.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/oauth/code/send")]
     public async Task<BlogResponse> SendAuthorizeCodeAsync()
     {
         var response = new BlogResponse();

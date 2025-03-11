@@ -1,8 +1,9 @@
 ﻿using Meowv.Blog.Application.Dto;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.IServices;
 
-public interface IUserAppService
+public interface IUserAppService : IApplicationService
 {
     Task<BlogResponse> CreateUserAsync(CreateUserInput input);
 
@@ -19,9 +20,6 @@ public interface IUserAppService
     Task<BlogResponse<UserDto>> GetUserAsync(string id);
 
     Task<BlogResponse<UserDto>> GetCurrentUserAsync();
-
-    Task<UserDto> CreateUserAsync(string username, string type, string identity, string name, string avatar,
-        string email);
 
     Task<UserDto> VerifyByAccountAsync(string username, string password);
 

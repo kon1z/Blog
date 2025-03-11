@@ -1,8 +1,4 @@
-using System;
-using System.Threading.Tasks;
 using Meowv.Helpers;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace Meowv.Blog.HttpApi.Host;

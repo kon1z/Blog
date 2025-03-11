@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Caching;
 using Meowv.Blog.Domain.Blog;
 using Meowv.Blog.Domain.Blog.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
 
 namespace Meowv.Blog.Application.Blog.Services;
 
-public class BlogAppService : ServiceBase, IBlogAppService
+public class BlogAppService : MeowvBlogAppService, IBlogAppService
 {
     private readonly IBlogCacheAppService _cacheApp;
     private readonly ICategoryRepository _categories;
@@ -40,7 +39,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     ///     Get statistics on the total number of posts, categories and tags.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/blog/statistics")]
     public async Task<BlogResponse<Tuple<int, int, int>>> GetStatisticsAsync()
     {
         var response = new BlogResponse<Tuple<int, int, int>>();
@@ -59,7 +57,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    [Route("api/meowv/blog/post")]
     public async Task<BlogResponse<PostDetailDto>> GetPostByUrlAsync(string url)
     {
         return await _cacheApp.GetPostByUrlAsync(url, async () =>
@@ -91,7 +88,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="page"></param>
     /// <param name="limit"></param>
     /// <returns></returns>
-    [Route("api/meowv/blog/posts/{page}/{limit}")]
     public async Task<BlogResponse<PagedList<GetPostDto>>> GetPostsAsync([Range(1, 100)] int page = 1,
         [Range(10, 100)] int limit = 10)
     {
@@ -113,7 +109,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <param name="category"></param>
     /// <returns></returns>
-    [Route("api/meowv/blog/posts/category/{category}")]
     public async Task<BlogResponse<List<GetPostDto>>> GetPostsByCategoryAsync(string category)
     {
         return await _cacheApp.GetPostsByCategoryAsync(category, async () =>
@@ -139,7 +134,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <param name="tag"></param>
     /// <returns></returns>
-    [Route("api/meowv/blog/posts/tag/{tag}")]
     public async Task<BlogResponse<List<GetPostDto>>> GetPostsByTagAsync(string tag)
     {
         return await _cacheApp.GetPostsByTagAsync(tag, async () =>
@@ -166,7 +160,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/tag")]
     public async Task<BlogResponse> CreateTagAsync(CreateTagInput input)
     {
         var response = new BlogResponse();
@@ -193,7 +186,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/tag/{id}")]
     public async Task<BlogResponse> DeleteTagAsync(string id)
     {
         var response = new BlogResponse();
@@ -217,7 +209,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/tag/{id}")]
     public async Task<BlogResponse> UpdateTagAsync(string id, UpdateTagInput input)
     {
         var response = new BlogResponse();
@@ -242,7 +233,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/admin/tags")]
     public async Task<BlogResponse<List<GetAdminTagDto>>> GetAdminTagsAsync()
     {
         var response = new BlogResponse<List<GetAdminTagDto>>();
@@ -262,7 +252,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/post")]
     public async Task<BlogResponse> CreatePostAsync(CreatePostInput input)
     {
         var response = new BlogResponse();
@@ -296,7 +285,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/post/{id}")]
     public async Task<BlogResponse> DeletePostAsync(string id)
     {
         var response = new BlogResponse();
@@ -320,7 +308,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/post/{id}")]
     public async Task<BlogResponse> UpdatePostAsync(string id, UpdatePostInput input)
     {
         var response = new BlogResponse();
@@ -358,7 +345,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/post/{id}")]
     public async Task<BlogResponse<PostDto>> GetPostAsync(string id)
     {
         var response = new BlogResponse<PostDto>();
@@ -384,7 +370,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="limit"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/admin/posts/{page}/{limit}")]
     public async Task<BlogResponse<PagedList<GetAdminPostDto>>> GetAdminPostsAsync([Range(1, 100)] int page = 1,
         [Range(10, 100)] int limit = 10)
     {
@@ -404,7 +389,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/friendlink")]
     public async Task<BlogResponse> CreateFriendLinkAsync(CreateFriendLinkInput input)
     {
         var response = new BlogResponse();
@@ -431,7 +415,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/friendlink/{id}")]
     public async Task<BlogResponse> DeleteFriendLinkAsync(string id)
     {
         var response = new BlogResponse();
@@ -455,7 +438,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/friendlink/{id}")]
     public async Task<BlogResponse> UpdateFriendLinkAsync(string id, UpdateFriendLinkInput input)
     {
         var response = new BlogResponse();
@@ -480,7 +462,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/admin/friendlinks")]
     public async Task<BlogResponse<List<GetAdminFriendLinkDto>>> GetAdminFriendLinksAsync()
     {
         var response = new BlogResponse<List<GetAdminFriendLinkDto>>();
@@ -499,7 +480,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/category")]
     public async Task<BlogResponse> CreateCategoryAsync(CreateCategoryInput input)
     {
         var response = new BlogResponse();
@@ -526,7 +506,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="id"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/category/{id}")]
     public async Task<BlogResponse> DeleteCategoryAsync(string id)
     {
         var response = new BlogResponse();
@@ -550,7 +529,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// <param name="input"></param>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/category/{id}")]
     public async Task<BlogResponse> UpdateCategoryAsync(string id, UpdateCategoryInput input)
     {
         var response = new BlogResponse();
@@ -575,7 +553,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     /// </summary>
     /// <returns></returns>
     [Authorize]
-    [Route("api/meowv/blog/admin/categories")]
     public async Task<BlogResponse<List<GetAdminCategoryDto>>> GetAdminCategoriesAsync()
     {
         var response = new BlogResponse<List<GetAdminCategoryDto>>();
@@ -593,7 +570,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     ///     Get the list of friendlinks.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/blog/friendlinks")]
     public async Task<BlogResponse<List<FriendLinkDto>>> GetFriendLinksAsync()
     {
         return await _cacheApp.GetFriendLinksAsync(async () =>
@@ -613,7 +589,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     ///     Get the list of categories.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/blog/categories")]
     public async Task<BlogResponse<List<GetCategoryDto>>> GetCategoriesAsync()
     {
         return await _cacheApp.GetCategoriesAsync(async () =>
@@ -638,7 +613,6 @@ public class BlogAppService : ServiceBase, IBlogAppService
     ///     Get the list of tags.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/blog/tags")]
     public async Task<BlogResponse<List<GetTagDto>>> GetTagsAsync()
     {
         return await _cacheApp.GetTagsAsync(async () =>

@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup>
     <ProjectReference Include="..\..\shared\Meowv.Shared.Microservices\Meowv.Shared.Microservices.csproj" />
     <ProjectReference Include="..\blog\src\Meowv.Blog.Application\Meowv.Blog.Application.csproj" />
     <ProjectReference Include="..\blog\src\Meowv.Blog.HttpApi\Meowv.Blog.HttpApi.csproj" />

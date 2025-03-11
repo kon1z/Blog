@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Caching;
 using Meowv.Blog.Domain.Hots;
 using Meowv.Blog.Domain.Hots.Repositories;
 using Meowv.Blog.Extensions;
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Meowv.Blog.Application.Hots.Services;
 
-public class HotAppService : ServiceBase, IHotAppService
+public class HotAppService : MeowvBlogAppService, IHotAppService
 {
     private readonly IHotCacheAppService _cacheApp;
     private readonly IHotRepository _hots;
@@ -25,7 +24,6 @@ public class HotAppService : ServiceBase, IHotAppService
     ///     Get the list of sources.
     /// </summary>
     /// <returns></returns>
-    [Route("api/meowv/hots/source")]
     public async Task<BlogResponse<List<HotSourceDto>>> GetSourcesAsync()
     {
         return await _cacheApp.GetSourcesAsync(async () =>
@@ -45,7 +43,6 @@ public class HotAppService : ServiceBase, IHotAppService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("api/meowv/hots/{id}")]
     public async Task<BlogResponse<HotDto>> GetHotsAsync(string id)
     {
         return await _cacheApp.GetHotsAsync(id, async () =>

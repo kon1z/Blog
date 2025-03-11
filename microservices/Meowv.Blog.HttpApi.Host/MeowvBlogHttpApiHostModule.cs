@@ -1,9 +1,7 @@
-﻿using Meowv.Blog.MongoDb;
+﻿using Autofac.Features.ResolveAnything;
+using Meowv.Blog.MongoDb;
 using Meowv.Helpers;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
@@ -11,7 +9,6 @@ using Volo.Abp.Modularity;
 namespace Meowv.Blog.HttpApi.Host;
 
 [DependsOn(
-    typeof(AbpAspNetCoreMvcModule),
     typeof(MeowvBlogApplicationModule),
     typeof(MeowvBlogMongoDbModule),
     typeof(MeowvBlogHttpApiModule),
@@ -21,6 +18,8 @@ public class MeowvBlogHttpApiHostModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        var configuration = context.Services.GetConfiguration();
+
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
             options.ConventionalControllers.Create(typeof(MeowvBlogApplicationModule).Assembly);
@@ -28,9 +27,13 @@ public class MeowvBlogHttpApiHostModule : AbpModule
 
         context.Services.AddCors(options =>
         {
-            options.AddPolicy("Default", builder =>
+            options.AddDefaultPolicy(builder =>
             {
                 builder
+                    .WithOrigins(configuration["App:CorsOrigins"]?
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(o => o.RemovePostFix("/"))
+                        .ToArray() ?? [])
                     .WithAbpExposedHeaders()
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .AllowAnyHeader()
@@ -38,6 +41,8 @@ public class MeowvBlogHttpApiHostModule : AbpModule
                     .AllowCredentials();
             });
         });
+
+        context.Services.AddEndpointsApiExplorer();
 
         JwtBearerConfigurationHelper.Configure(context, "Meowv_BlogServer");
         SwaggerConfigurationHelper.Configure(context);
@@ -48,16 +53,24 @@ public class MeowvBlogHttpApiHostModule : AbpModule
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
 
-        if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+        if (env.IsDevelopment()) 
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        app.UseAbpRequestLocalization();
+        app.UseCorrelationId();
+        app.MapAbpStaticAssets();
+        app.UseRouting();
+        app.UseCors();
+        app.UseAuthentication();
 
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseAbpSwaggerUI();
 
-        app.UseHsts();
-        app.UseRouting();
-        app.UseCors("Default");
-        app.UseAuthentication();
+        app.UseUnitOfWork();
+        app.UseDynamicClaims();
         app.UseAuthorization();
+
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();

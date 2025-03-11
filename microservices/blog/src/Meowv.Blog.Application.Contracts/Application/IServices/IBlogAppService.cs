@@ -1,8 +1,9 @@
 ﻿using Meowv.Blog.Application.Dto;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.IServices;
 
-public interface IBlogAppService
+public interface IBlogAppService : IApplicationService
 {
     Task<BlogResponse<Tuple<int, int, int>>> GetStatisticsAsync();
     Task<BlogResponse> CreateCategoryAsync(CreateCategoryInput input);

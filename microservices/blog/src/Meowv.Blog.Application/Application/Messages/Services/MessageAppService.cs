@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meowv.Blog.Application.Dto;
+﻿using Meowv.Blog.Application.Dto;
 using Meowv.Blog.Application.IServices;
 using Meowv.Blog.Domain.Messages;
 using Meowv.Blog.Domain.Messages.Repositories;
 using Meowv.Blog.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Meowv.Blog.Application.Messages.Services;
 
 [Authorize]
-public class MessageAppService : ServiceBase, IMessageAppService
+public class MessageAppService : MeowvBlogAppService, IMessageAppService
 {
     private readonly IMessageRepository _messages;
 
@@ -26,7 +25,6 @@ public class MessageAppService : ServiceBase, IMessageAppService
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [Route("api/meowv/message")]
     public async Task<BlogResponse> CreateAsync(CreateMessageInput input)
     {
         var response = new BlogResponse();
@@ -48,7 +46,6 @@ public class MessageAppService : ServiceBase, IMessageAppService
     /// <param name="id"></param>
     /// <param name="input"></param>
     /// <returns></returns>
-    [Route("api/meowv/message/reply/{id}")]
     public async Task<BlogResponse> ReplyAsync(string id, ReplyMessageInput input)
     {
         var response = new BlogResponse();
@@ -80,7 +77,6 @@ public class MessageAppService : ServiceBase, IMessageAppService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [Route("api/meowv/message/{id}")]
     public async Task<BlogResponse> DeleteAsync(string id)
     {
         var response = new BlogResponse();
@@ -110,7 +106,6 @@ public class MessageAppService : ServiceBase, IMessageAppService
     /// <param name="id"></param>
     /// <param name="replyId"></param>
     /// <returns></returns>
-    [Route("api/meowv/message/reply/{id}/{replyId}")]
     public async Task<BlogResponse> DeleteReplyAsync(string id, string replyId)
     {
         var response = new BlogResponse();
@@ -135,7 +130,6 @@ public class MessageAppService : ServiceBase, IMessageAppService
     /// <param name="page"></param>
     /// <param name="limit"></param>
     /// <returns></returns>
-    [Route("api/meowv/messages/{page}/{limit}")]
     public async Task<BlogResponse<PagedList<MessageDto>>> GetMessagesAsync(int page, int limit)
     {
         var response = new BlogResponse<PagedList<MessageDto>>();

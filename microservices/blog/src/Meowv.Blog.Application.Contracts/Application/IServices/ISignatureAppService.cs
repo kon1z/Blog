@@ -1,8 +1,9 @@
 ﻿using Meowv.Blog.Application.Dto;
+using Volo.Abp.Application.Services;
 
 namespace Meowv.Blog.Application.IServices;
 
-public interface ISignatureAppService
+public interface ISignatureAppService : IApplicationService
 {
     Task<BlogResponse<List<SignatureTypeDto>>> GetTypesAsync();
 
